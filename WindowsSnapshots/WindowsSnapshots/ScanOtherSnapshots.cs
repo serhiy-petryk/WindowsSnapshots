@@ -32,21 +32,24 @@ namespace WindowsSnapshots
             var fileLines1 = ReadZipFile(firstFile);
             var fileLines2 = ReadZipFile(secondFile);
 
+            var printData = new List<string>
+            {
+                $"OTHERS DIFFERENCES\t{Path.GetFileNameWithoutExtension(firstFile)}\t{Path.GetFileNameWithoutExtension(secondFile)}"
+            };
+
+            // ======  FIREWALL  =======
             var firewallData1 = GetDataLines(fileLines1, "FIREWALL", HelperFirewall.GetHeaderString(),
                 (HelperFirewall.GetDataLineKey));
             var firewallData2 = GetDataLines(fileLines2, "FIREWALL", HelperFirewall.GetHeaderString(),
                 (HelperFirewall.GetDataLineKey));
 
             var difference = GetDifference(firewallData1, firewallData2);
-
-            var printData = new List<string>();
-            printData.Add($"OTHERS DIFFERENCES\t{Path.GetFileNameWithoutExtension(firstFile)}\t{Path.GetFileNameWithoutExtension(secondFile)}");
             printData.Add($"#FIREWALL ({difference.Count} rows)#");
             printData.Add(HelperFirewall.GetHeaderStringOfDifference());
             foreach(var kvp in difference)
                 printData.Add(HelperFirewall.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
 
-            //==========================
+            //=======  SERVICES  ========
             var servicesData1 = GetDataLines(fileLines1, "SERVICES", HelperServices.GetHeaderString(),
                 (HelperServices.GetDataLineKey));
             var servicesData2 = GetDataLines(fileLines2, "SERVICES", HelperServices.GetHeaderString(),
@@ -59,7 +62,7 @@ namespace WindowsSnapshots
             foreach (var kvp in difference)
                 printData.Add(HelperServices.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
 
-            //==========================
+            //========  TASK SCHEDULER  =========
             var taskScheduler1 = GetDataLines(fileLines1, "TASK SCHEDULER", HelperTaskScheduler.GetHeaderString(),
                 (HelperTaskScheduler.GetDataLineKey));
             var taskScheduler2 = GetDataLines(fileLines2, "TASK SCHEDULER", HelperTaskScheduler.GetHeaderString(),
@@ -72,10 +75,7 @@ namespace WindowsSnapshots
             foreach (var kvp in difference)
               printData.Add(HelperTaskScheduler.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
 
-            foreach (var s1 in printData)
-                Debug.Print(s1);
-
-            // Save difference
+            // =====  Save difference  ======
             showStatusAction($"Saving data ..");
             Helpers.SaveStringsToZipFile(differenceFileName, printData);
 
