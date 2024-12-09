@@ -4,7 +4,7 @@
     {
         public static void Test()
         {
-            /*var data = ParseZipScanFile(@"E:\Temp\FileSystemAndRegistrySnapshots\Tasks_SSD_240_202412082004.zip");
+            /*var data = ParseZipScanFile(@"E:\Temp\WindowsSnapshots\Tasks_SSD_240_202412082004.zip");
             return;
             var aa1 = TaskService.Instance.AllTasks.OrderBy(a=>a.Folder).ThenBy(a=>a.Name).ToArray();
             var a1 = aa1.Where(a => !a.Enabled).ToArray();

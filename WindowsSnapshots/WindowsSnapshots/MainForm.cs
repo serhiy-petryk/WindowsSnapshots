@@ -39,12 +39,12 @@ namespace WindowsSnapshots
                     txtSecondRegistrySnapshotFile.Text = files[0];
                 }
 
-                files = Directory.GetFiles(dataFolder, "Services_*.zip")
+                files = Directory.GetFiles(dataFolder, "Others_*.zip")
                     .OrderByDescending(a => new FileInfo(a).CreationTime).Take(2).ToArray();
-                if (files.Length == 1) txtFirstServicesSnapshotFile.Text = files[0];
+                if (files.Length == 1) txtFirstOthersSnapshotFile.Text = files[0];
                 else if (files.Length > 1)
                 {
-                    txtFirstServicesSnapshotFile.Text = files[1];
+                    txtFirstOthersSnapshotFile.Text = files[1];
                     txtSecondServicesSnapshotFile.Text = files[0];
                 }
             }
@@ -198,30 +198,30 @@ namespace WindowsSnapshots
             btnServicesSnapshot.Enabled = true;
         }
 
-        private void btnSelectFirstServicesSnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectFirstOthersSnapshotFile_Click(object sender, EventArgs e)
         {
-            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtFirstServicesSnapshotFile.Text,
-                    @"service list zip files (*.zip)|Services_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
+            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtFirstOthersSnapshotFile.Text,
+                    @"others zip files (*.zip)|Others_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
-                txtFirstServicesSnapshotFile.Text = fn;
+                txtFirstOthersSnapshotFile.Text = fn;
             }
         }
 
-        private void btnSelectSecondServicesSnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectSecondOthersSnapshotFile_Click(object sender, EventArgs e)
         {
             if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtSecondServicesSnapshotFile.Text,
-                    @"service list zip files (*.zip)|Services_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
+                    @"others zip files (*.zip)|Others_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
                 txtSecondServicesSnapshotFile.Text = fn;
             }
         }
 
-        private async void btnCompareServicesSnapshots_Click(object sender, EventArgs e)
+        private async void btnCompareOthersSnapshots_Click(object sender, EventArgs e)
         {
-            btnCompareServicesSnapshots.Enabled = false;
+            btnCompareOthersSnapshots.Enabled = false;
             try
             {
-                var task = ScanServices.CompareServicesFiles(txtFirstServicesSnapshotFile.Text, txtSecondServicesSnapshotFile.Text, ShowStatus);
+                var task = ScanOtherSnapshots.CompareFiles(txtFirstOthersSnapshotFile.Text, txtSecondServicesSnapshotFile.Text, ShowStatus);
                 await Task.Factory.StartNew(() => task);
                 ShowStatus($"New registry difference file is {task}");
                 MessageBox.Show($"New registry difference file is {task}");
@@ -232,7 +232,7 @@ namespace WindowsSnapshots
                 MessageBox.Show(exception.Message);
             }
 
-            btnCompareServicesSnapshots.Enabled = true;
+            btnCompareOthersSnapshots.Enabled = true;
 
             Helpers.ClearMemory();
         }

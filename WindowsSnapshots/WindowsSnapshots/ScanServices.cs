@@ -11,7 +11,7 @@ namespace WindowsSnapshots
     {
         public static void Start()
         {
-            var folder = $"E:\\Temp\\FileSystemAndRegistrySnapshots";
+            var folder = $"E:\\Temp\\WindowsSnapshots";
             var s = SaveServiceInfosIntoFile(folder, Helpers.FakeShowStatus);
         }
 

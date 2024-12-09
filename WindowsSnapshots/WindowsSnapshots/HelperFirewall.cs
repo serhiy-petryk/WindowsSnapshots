@@ -6,6 +6,12 @@ namespace WindowsSnapshots
 {
     public static class HelperFirewall
     {
+        internal static string GetDataLineKey(string dataLine)
+        {
+            var ss = dataLine.Split('\t');
+            return $"{ss[0]}\t{ss[1]}\t{ss[2]}\t{ss[5]}\t{ss[8]}";
+        }
+
         internal static List<string> GetData()
         {
             var data = new List<string> { GetHeaderString() };
@@ -15,7 +21,7 @@ namespace WindowsSnapshots
             return data;
         }
 
-        private static string GetHeaderString() =>
+        internal static string GetHeaderString() =>
             "Direction\tName\tProfile\tEnabled\tAction\tProgram\tLocal Address\tRemote Address\tProtocol\tLocal Port\tRemote Port";
 
         private static string GetDataString(IFirewallRule rule)
