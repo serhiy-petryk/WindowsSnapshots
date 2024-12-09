@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -36,28 +37,77 @@ namespace WindowsSnapshots
             var firewallData2 = GetDataLines(fileLines2, "FIREWALL", HelperFirewall.GetHeaderString(),
                 (HelperFirewall.GetDataLineKey));
 
+            var difference = GetDifference(firewallData1, firewallData2);
+
+            var printData = new List<string>();
+            printData.Add($"OTHERS DIFFERENCES\t{Path.GetFileNameWithoutExtension(firstFile)}\t{Path.GetFileNameWithoutExtension(secondFile)}");
+            printData.Add($"#FIREWALL ({difference.Count} rows)#");
+            printData.Add(HelperFirewall.GetHeaderStringOfDifference());
+            foreach(var kvp in difference)
+                printData.Add(HelperFirewall.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
+
+            //==========================
+            var servicesData1 = GetDataLines(fileLines1, "SERVICES", HelperServices.GetHeaderString(),
+                (HelperServices.GetDataLineKey));
+            var servicesData2 = GetDataLines(fileLines2, "SERVICES", HelperServices.GetHeaderString(),
+                (HelperServices.GetDataLineKey));
+
+            difference = GetDifference(servicesData1, servicesData2);
+            printData.Add(null);
+            printData.Add($"#SERVICES ({difference.Count} rows)#");
+            printData.Add(HelperServices.GetHeaderStringOfDifference());
+            foreach (var kvp in difference)
+                printData.Add(HelperServices.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
+
+            //==========================
+            var taskScheduler1 = GetDataLines(fileLines1, "TASK SCHEDULER", HelperTaskScheduler.GetHeaderString(),
+                (HelperTaskScheduler.GetDataLineKey));
+            var taskScheduler2 = GetDataLines(fileLines2, "TASK SCHEDULER", HelperTaskScheduler.GetHeaderString(),
+                (HelperTaskScheduler.GetDataLineKey));
+
+            difference = GetDifference(taskScheduler1, taskScheduler2);
+            printData.Add(null);
+            printData.Add($"#TASK SCHEDULER LIST ({difference.Count} rows)#");
+            printData.Add(HelperTaskScheduler.GetHeaderStringOfDifference());
+            foreach (var kvp in difference)
+              printData.Add(HelperTaskScheduler.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
+
+            foreach (var s1 in printData)
+                Debug.Print(s1);
+
+            // Save difference
+            showStatusAction($"Saving data ..");
+            Helpers.SaveStringsToZipFile(differenceFileName, printData);
+
+            showStatusAction($"Data saved into {Path.GetFileName(differenceFileName)}");
+            return differenceFileName;
+        }
+
+        private static Dictionary<string, (string, string)> GetDifference(Dictionary<string, string> data1, Dictionary<string, string> data2)
+        {
             var difference = new Dictionary<string, (string, string)>();
-            foreach (var kvp in firewallData1)
+            foreach (var kvp in data1)
             {
-                if (firewallData2.ContainsKey(kvp.Key))
+                if (data2.ContainsKey(kvp.Key))
                 {
-                    if (!object.Equals(firewallData1[kvp.Key], firewallData2[kvp.Key]))
+                    if (!object.Equals(data1[kvp.Key], data2[kvp.Key]))
                     {
-                        difference.Add(kvp.Key, (firewallData1[kvp.Key], firewallData2[kvp.Key]));
+                        difference.Add(kvp.Key, (data1[kvp.Key], data2[kvp.Key]));
                     }
                 }
                 else
-                    difference.Add(kvp.Key, (firewallData1[kvp.Key], null));
+                    difference.Add(kvp.Key, (data1[kvp.Key], null));
             }
 
-            foreach (var kvp in firewallData2)
+            foreach (var kvp in data2)
             {
-                if (!firewallData1.ContainsKey(kvp.Key))
-                    difference.Add(kvp.Key, (null, firewallData2[kvp.Key]));
+                if (!data1.ContainsKey(kvp.Key))
+                    difference.Add(kvp.Key, (null, data2[kvp.Key]));
             }
 
-            return null;
+            return difference;
         }
+
 
         private static Dictionary<string, string> GetDataLines(string[] fileLines, string headerId, string header, Func<string, string> fnKey)
         {

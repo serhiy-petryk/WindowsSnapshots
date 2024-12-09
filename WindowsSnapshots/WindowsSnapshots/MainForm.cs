@@ -178,16 +178,16 @@ namespace WindowsSnapshots
         }
         #endregion
 
-        #region ==========  Services  ===========
-        private async void btnServicesSnapshot_Click(object sender, EventArgs e)
+        #region ============  Others Snapshots  ===========
+        private async void btnOthersSnapshot_Click(object sender, EventArgs e)
         {
-            btnServicesSnapshot.Enabled = false;
+            btnOthersSnapshot.Enabled = false;
             try
             {
-                var task = ScanServices.SaveServiceInfosIntoFile(GetDataFolder(), ShowStatus);
+                var task = ScanOtherSnapshots.SaveSnapshotsIntoFile(GetDataFolder(), ShowStatus);
                 await Task.Factory.StartNew(() => task);
-                ShowStatus($"New ServiceList snapshot file is {task}");
-                MessageBox.Show($"New ServiceList snapshot file is {task}");
+                ShowStatus($"New OtherSnapshots file is {task}");
+                MessageBox.Show($"New OtherSnapshots file is {task}");
             }
             catch (Exception exception)
             {
@@ -195,7 +195,7 @@ namespace WindowsSnapshots
                 MessageBox.Show(exception.Message);
             }
 
-            btnServicesSnapshot.Enabled = true;
+            btnOthersSnapshot.Enabled = true;
         }
 
         private void btnSelectFirstOthersSnapshotFile_Click(object sender, EventArgs e)
@@ -237,65 +237,5 @@ namespace WindowsSnapshots
             Helpers.ClearMemory();
         }
         #endregion
-
-        #region =========  Firewall rules  ============
-        private async void btnFirewallRulesSnapshot_Click(object sender, EventArgs e)
-        {
-            /*btnFirewallRulesSnapshot.Enabled = false;
-            try
-            {
-                var task = ScanFirewall.SaveFirewallRulesIntoFile(GetDataFolder(), ShowStatus);
-                await Task.Factory.StartNew(() => task);
-                ShowStatus($"New FirewallRules snapshot file is {task}");
-                MessageBox.Show($"New FirewallRules snapshot file is {task}");
-            }
-            catch (Exception exception)
-            {
-                ShowStatus(exception.Message);
-                MessageBox.Show(exception.Message);
-            }
-
-            btnFirewallRulesSnapshot.Enabled = true;*/
-        }
-        #endregion
-
-        private async void btnTasksSnapshot_Click(object sender, EventArgs e)
-        {
-            btnTasksSnapshot.Enabled = false;
-            try
-            {
-                var task = ScanOtherSnapshots.SaveSnapshotsIntoFile(GetDataFolder(), ShowStatus);
-                await Task.Factory.StartNew(() => task);
-                ShowStatus($"New OtherSnapshots file is {task}");
-                MessageBox.Show($"New OtherSnapshots file is {task}");
-            }
-            catch (Exception exception)
-            {
-                ShowStatus(exception.Message);
-                MessageBox.Show(exception.Message);
-            }
-
-            btnTasksSnapshot.Enabled = true;
-
-        }
-
-        private async void btnOthersSnapshot_Click(object sender, EventArgs e)
-        {
-            btnOthersSnapshot.Enabled = false;
-            try
-            {
-                var task = ScanOtherSnapshots.SaveSnapshotsIntoFile(GetDataFolder(), ShowStatus);
-                await Task.Factory.StartNew(() => task);
-                ShowStatus($"New OtherSnapshots file is {task}");
-                MessageBox.Show($"New OtherSnapshots file is {task}");
-            }
-            catch (Exception exception)
-            {
-                ShowStatus(exception.Message);
-                MessageBox.Show(exception.Message);
-            }
-
-            btnOthersSnapshot.Enabled = true;
-        }
     }
 }

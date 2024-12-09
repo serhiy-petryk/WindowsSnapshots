@@ -46,7 +46,6 @@ namespace WindowsSnapshots
             this.btnSelectFirstRegistrySnapshotFile = new System.Windows.Forms.Button();
             this.txtSecondRegistrySnapshotFile = new System.Windows.Forms.TextBox();
             this.txtFirstRegistrySnapshotFile = new System.Windows.Forms.TextBox();
-            this.btnServicesSnapshot = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCompareOthersSnapshots = new System.Windows.Forms.Button();
             this.btnSelectSecondOthersSnapshotFile = new System.Windows.Forms.Button();
@@ -54,8 +53,6 @@ namespace WindowsSnapshots
             this.txtSecondServicesSnapshotFile = new System.Windows.Forms.TextBox();
             this.txtFirstOthersSnapshotFile = new System.Windows.Forms.TextBox();
             this.lblUsersFolderPath = new System.Windows.Forms.TextBox();
-            this.btnFirewallRulesSnapshot = new System.Windows.Forms.Button();
-            this.btnTasksSnapshot = new System.Windows.Forms.Button();
             this.btnOthersSnapshot = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -245,17 +242,6 @@ namespace WindowsSnapshots
             this.txtFirstRegistrySnapshotFile.Size = new System.Drawing.Size(467, 20);
             this.txtFirstRegistrySnapshotFile.TabIndex = 2;
             // 
-            // btnServicesSnapshot
-            // 
-            this.btnServicesSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnServicesSnapshot.Location = new System.Drawing.Point(431, 61);
-            this.btnServicesSnapshot.Name = "btnServicesSnapshot";
-            this.btnServicesSnapshot.Size = new System.Drawing.Size(156, 22);
-            this.btnServicesSnapshot.TabIndex = 6;
-            this.btnServicesSnapshot.Text = "Make service list snapshot";
-            this.btnServicesSnapshot.UseVisualStyleBackColor = true;
-            this.btnServicesSnapshot.Click += new System.EventHandler(this.btnServicesSnapshot_Click);
-            // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -334,28 +320,6 @@ namespace WindowsSnapshots
             this.lblUsersFolderPath.TabIndex = 9;
             this.lblUsersFolderPath.Text = "Label";
             // 
-            // btnFirewallRulesSnapshot
-            // 
-            this.btnFirewallRulesSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFirewallRulesSnapshot.Location = new System.Drawing.Point(252, 61);
-            this.btnFirewallRulesSnapshot.Name = "btnFirewallRulesSnapshot";
-            this.btnFirewallRulesSnapshot.Size = new System.Drawing.Size(156, 22);
-            this.btnFirewallRulesSnapshot.TabIndex = 10;
-            this.btnFirewallRulesSnapshot.Text = "Make firewall rules snapshot";
-            this.btnFirewallRulesSnapshot.UseVisualStyleBackColor = true;
-            this.btnFirewallRulesSnapshot.Click += new System.EventHandler(this.btnFirewallRulesSnapshot_Click);
-            // 
-            // btnTasksSnapshot
-            // 
-            this.btnTasksSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTasksSnapshot.Location = new System.Drawing.Point(62, 61);
-            this.btnTasksSnapshot.Name = "btnTasksSnapshot";
-            this.btnTasksSnapshot.Size = new System.Drawing.Size(164, 22);
-            this.btnTasksSnapshot.TabIndex = 11;
-            this.btnTasksSnapshot.Text = "Make task scheduler snapshot";
-            this.btnTasksSnapshot.UseVisualStyleBackColor = true;
-            this.btnTasksSnapshot.Click += new System.EventHandler(this.btnTasksSnapshot_Click);
-            // 
             // btnOthersSnapshot
             // 
             this.btnOthersSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -373,11 +337,8 @@ namespace WindowsSnapshots
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(762, 390);
             this.Controls.Add(this.btnOthersSnapshot);
-            this.Controls.Add(this.btnTasksSnapshot);
-            this.Controls.Add(this.btnFirewallRulesSnapshot);
             this.Controls.Add(this.lblUsersFolderPath);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.btnServicesSnapshot);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnFileSystemSnapshot);
@@ -418,7 +379,6 @@ namespace WindowsSnapshots
         private System.Windows.Forms.TextBox txtSecondRegistrySnapshotFile;
         private System.Windows.Forms.TextBox txtFirstRegistrySnapshotFile;
         private System.Windows.Forms.Button btnSelectSecondFileSystemSnapshotFile;
-        private System.Windows.Forms.Button btnServicesSnapshot;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnCompareOthersSnapshots;
         private System.Windows.Forms.Button btnSelectSecondOthersSnapshotFile;
@@ -426,8 +386,6 @@ namespace WindowsSnapshots
         private System.Windows.Forms.TextBox txtSecondServicesSnapshotFile;
         private System.Windows.Forms.TextBox txtFirstOthersSnapshotFile;
         private System.Windows.Forms.TextBox lblUsersFolderPath;
-        private System.Windows.Forms.Button btnFirewallRulesSnapshot;
-        private System.Windows.Forms.Button btnTasksSnapshot;
         private System.Windows.Forms.Button btnOthersSnapshot;
     }
 }
