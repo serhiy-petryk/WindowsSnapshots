@@ -23,29 +23,29 @@ namespace WindowsSnapshots
             {
                 var files = Directory.GetFiles(dataFolder, "FileSystem_*.zip")
                     .OrderByDescending(a => new FileInfo(a).CreationTime).Take(2).ToArray();
-                if (files.Length == 1) txtFirstFileSystemSnapshotFile.Text = files[0];
+                if (files.Length == 1) txtOldFileSystemSnapshotFile.Text = files[0];
                 else if (files.Length > 1)
                 {
-                    txtFirstFileSystemSnapshotFile.Text = files[1];
-                    txtSecondFileSystemSnapshotFile.Text = files[0];
+                    txtOldFileSystemSnapshotFile.Text = files[1];
+                    txtNewFileSystemSnapshotFile.Text = files[0];
                 }
 
                 files = Directory.GetFiles(dataFolder, "Registry_*.zip")
                     .OrderByDescending(a => new FileInfo(a).CreationTime).Take(2).ToArray();
-                if (files.Length == 1) txtFirstRegistrySnapshotFile.Text = files[0];
+                if (files.Length == 1) txtOldRegistrySnapshotFile.Text = files[0];
                 else if (files.Length > 1)
                 {
-                    txtFirstRegistrySnapshotFile.Text = files[1];
-                    txtSecondRegistrySnapshotFile.Text = files[0];
+                    txtOldRegistrySnapshotFile.Text = files[1];
+                    txtNewRegistrySnapshotFile.Text = files[0];
                 }
 
                 files = Directory.GetFiles(dataFolder, "Others_*.zip")
                     .OrderByDescending(a => new FileInfo(a).CreationTime).Take(2).ToArray();
-                if (files.Length == 1) txtFirstOthersSnapshotFile.Text = files[0];
+                if (files.Length == 1) txtOldOthersSnapshotFile.Text = files[0];
                 else if (files.Length > 1)
                 {
-                    txtFirstOthersSnapshotFile.Text = files[1];
-                    txtSecondServicesSnapshotFile.Text = files[0];
+                    txtOldOthersSnapshotFile.Text = files[1];
+                    txtNewServicesSnapshotFile.Text = files[0];
                 }
             }
         }
@@ -99,21 +99,21 @@ namespace WindowsSnapshots
             btnFileSystemSnapshot.Enabled = true;
         }
 
-        private void btnSelectFirstFileSystemSnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectOldFileSystemSnapshotFile_Click(object sender, EventArgs e)
         {
-            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtFirstFileSystemSnapshotFile.Text,
+            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtOldFileSystemSnapshotFile.Text,
                     @"file system zip files (*.zip)|FileSystem_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
-                txtFirstFileSystemSnapshotFile.Text = fn;
+                txtOldFileSystemSnapshotFile.Text = fn;
             }
         }
 
-        private void btnSelectSecondFileSystemSnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectNewFileSystemSnapshotFile_Click(object sender, EventArgs e)
         {
-            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtSecondFileSystemSnapshotFile.Text,
+            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtNewFileSystemSnapshotFile.Text,
                     @"file system zip files (*.zip)|FileSystem_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
-                txtSecondFileSystemSnapshotFile.Text = fn;
+                txtNewFileSystemSnapshotFile.Text = fn;
             }
         }
 
@@ -122,7 +122,7 @@ namespace WindowsSnapshots
             btnCompareFileSystemSnapshots.Enabled = false;
             try
             {
-                var task = ScanFileSystem.CompareFileSystemFiles(txtFirstFileSystemSnapshotFile.Text, txtSecondFileSystemSnapshotFile.Text, ShowStatus);
+                var task = ScanFileSystem.CompareFileSystemFiles(txtOldFileSystemSnapshotFile.Text, txtNewFileSystemSnapshotFile.Text, ShowStatus);
                 await Task.Factory.StartNew(() => task);
                 ShowStatus($"New FileSystem difference file is {task}");
                 MessageBox.Show($"New FileSystem difference file is {task}");
@@ -139,21 +139,21 @@ namespace WindowsSnapshots
         #endregion;
 
         #region ============  Registry  =============
-        private void btnSelectFirstRegistrySnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectOldRegistrySnapshotFile_Click(object sender, EventArgs e)
         {
-            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtFirstRegistrySnapshotFile.Text,
+            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtOldRegistrySnapshotFile.Text,
                     @"registry zip files (*.zip)|Registry_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
-                txtFirstRegistrySnapshotFile.Text = fn;
+                txtOldRegistrySnapshotFile.Text = fn;
             }
         }
 
-        private void btnSelectSecondRegistrySnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectNewRegistrySnapshotFile_Click(object sender, EventArgs e)
         {
-            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtSecondRegistrySnapshotFile.Text,
+            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtNewRegistrySnapshotFile.Text,
                     @"registry zip files (*.zip)|Registry_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
-                txtSecondRegistrySnapshotFile.Text = fn;
+                txtNewRegistrySnapshotFile.Text = fn;
             }
         }
 
@@ -162,7 +162,7 @@ namespace WindowsSnapshots
             btnCompareRegistrySnapshots.Enabled = false;
             try
             {
-                var task = ScanRegistry.CompareRegistryFiles(txtFirstRegistrySnapshotFile.Text, txtSecondRegistrySnapshotFile.Text, ShowStatus);
+                var task = ScanRegistry.CompareRegistryFiles(txtOldRegistrySnapshotFile.Text, txtNewRegistrySnapshotFile.Text, ShowStatus);
                 await Task.Factory.StartNew(() => task);
                 ShowStatus($"New registry difference file is {task}");
                 MessageBox.Show($"New registry difference file is {task}");
@@ -198,21 +198,21 @@ namespace WindowsSnapshots
             btnOthersSnapshot.Enabled = true;
         }
 
-        private void btnSelectFirstOthersSnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectOldOthersSnapshotFile_Click(object sender, EventArgs e)
         {
-            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtFirstOthersSnapshotFile.Text,
+            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtOldOthersSnapshotFile.Text,
                     @"others zip files (*.zip)|Others_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
-                txtFirstOthersSnapshotFile.Text = fn;
+                txtOldOthersSnapshotFile.Text = fn;
             }
         }
 
-        private void btnSelectSecondOthersSnapshotFile_Click(object sender, EventArgs e)
+        private void btnSelectNewOthersSnapshotFile_Click(object sender, EventArgs e)
         {
-            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtSecondServicesSnapshotFile.Text,
+            if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtNewServicesSnapshotFile.Text,
                     @"others zip files (*.zip)|Others_*.zip") is string fn && !string.IsNullOrWhiteSpace(fn))
             {
-                txtSecondServicesSnapshotFile.Text = fn;
+                txtNewServicesSnapshotFile.Text = fn;
             }
         }
 
@@ -221,7 +221,7 @@ namespace WindowsSnapshots
             btnCompareOthersSnapshots.Enabled = false;
             try
             {
-                var task = ScanOtherSnapshots.CompareFiles(txtFirstOthersSnapshotFile.Text, txtSecondServicesSnapshotFile.Text, ShowStatus);
+                var task = ScanOtherSnapshots.CompareFiles(txtOldOthersSnapshotFile.Text, txtNewServicesSnapshotFile.Text, ShowStatus);
                 await Task.Factory.StartNew(() => task);
                 ShowStatus($"New registry difference file is {task}");
                 MessageBox.Show($"New registry difference file is {task}");

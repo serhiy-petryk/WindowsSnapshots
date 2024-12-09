@@ -36,22 +36,22 @@ namespace WindowsSnapshots
             this.btnFileSystemSnapshot = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCompareFileSystemSnapshots = new System.Windows.Forms.Button();
-            this.btnSelectSecondFileSystemSnapshotFile = new System.Windows.Forms.Button();
-            this.btnSelectFirstFileSystemSnapshotFile = new System.Windows.Forms.Button();
-            this.txtSecondFileSystemSnapshotFile = new System.Windows.Forms.TextBox();
-            this.txtFirstFileSystemSnapshotFile = new System.Windows.Forms.TextBox();
+            this.btnSelectNewFileSystemSnapshotFile = new System.Windows.Forms.Button();
+            this.btnSelectOldFileSystemSnapshotFile = new System.Windows.Forms.Button();
+            this.txtNewFileSystemSnapshotFile = new System.Windows.Forms.TextBox();
+            this.txtOldFileSystemSnapshotFile = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnCompareRegistrySnapshots = new System.Windows.Forms.Button();
-            this.btnSelectSecondRegistrySnapshotFile = new System.Windows.Forms.Button();
-            this.btnSelectFirstRegistrySnapshotFile = new System.Windows.Forms.Button();
-            this.txtSecondRegistrySnapshotFile = new System.Windows.Forms.TextBox();
-            this.txtFirstRegistrySnapshotFile = new System.Windows.Forms.TextBox();
+            this.btnSelectNewRegistrySnapshotFile = new System.Windows.Forms.Button();
+            this.btnSelectOldRegistrySnapshotFile = new System.Windows.Forms.Button();
+            this.txtNewRegistrySnapshotFile = new System.Windows.Forms.TextBox();
+            this.txtOldRegistrySnapshotFile = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCompareOthersSnapshots = new System.Windows.Forms.Button();
-            this.btnSelectSecondOthersSnapshotFile = new System.Windows.Forms.Button();
-            this.btnSelectFirstServicesSnapshotFile = new System.Windows.Forms.Button();
-            this.txtSecondServicesSnapshotFile = new System.Windows.Forms.TextBox();
-            this.txtFirstOthersSnapshotFile = new System.Windows.Forms.TextBox();
+            this.btnSelectNewOthersSnapshotFile = new System.Windows.Forms.Button();
+            this.btnSelectOldServicesSnapshotFile = new System.Windows.Forms.Button();
+            this.txtNewServicesSnapshotFile = new System.Windows.Forms.TextBox();
+            this.txtOldOthersSnapshotFile = new System.Windows.Forms.TextBox();
             this.lblUsersFolderPath = new System.Windows.Forms.TextBox();
             this.btnOthersSnapshot = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
@@ -113,10 +113,10 @@ namespace WindowsSnapshots
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.btnCompareFileSystemSnapshots);
-            this.groupBox1.Controls.Add(this.btnSelectSecondFileSystemSnapshotFile);
-            this.groupBox1.Controls.Add(this.btnSelectFirstFileSystemSnapshotFile);
-            this.groupBox1.Controls.Add(this.txtSecondFileSystemSnapshotFile);
-            this.groupBox1.Controls.Add(this.txtFirstFileSystemSnapshotFile);
+            this.groupBox1.Controls.Add(this.btnSelectNewFileSystemSnapshotFile);
+            this.groupBox1.Controls.Add(this.btnSelectOldFileSystemSnapshotFile);
+            this.groupBox1.Controls.Add(this.txtNewFileSystemSnapshotFile);
+            this.groupBox1.Controls.Add(this.txtOldFileSystemSnapshotFile);
             this.groupBox1.Location = new System.Drawing.Point(10, 96);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(743, 78);
@@ -135,55 +135,55 @@ namespace WindowsSnapshots
             this.btnCompareFileSystemSnapshots.UseVisualStyleBackColor = true;
             this.btnCompareFileSystemSnapshots.Click += new System.EventHandler(this.btnCompareFileSystemSnapshots_Click);
             // 
-            // btnSelectSecondFileSystemSnapshotFile
+            // btnSelectNewFileSystemSnapshotFile
             // 
-            this.btnSelectSecondFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectSecondFileSystemSnapshotFile.Location = new System.Drawing.Point(477, 44);
-            this.btnSelectSecondFileSystemSnapshotFile.Name = "btnSelectSecondFileSystemSnapshotFile";
-            this.btnSelectSecondFileSystemSnapshotFile.Size = new System.Drawing.Size(100, 22);
-            this.btnSelectSecondFileSystemSnapshotFile.TabIndex = 5;
-            this.btnSelectSecondFileSystemSnapshotFile.Text = "Select second file";
-            this.btnSelectSecondFileSystemSnapshotFile.UseVisualStyleBackColor = true;
-            this.btnSelectSecondFileSystemSnapshotFile.Click += new System.EventHandler(this.btnSelectSecondFileSystemSnapshotFile_Click);
+            this.btnSelectNewFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectNewFileSystemSnapshotFile.Location = new System.Drawing.Point(477, 44);
+            this.btnSelectNewFileSystemSnapshotFile.Name = "btnSelectNewFileSystemSnapshotFile";
+            this.btnSelectNewFileSystemSnapshotFile.Size = new System.Drawing.Size(100, 22);
+            this.btnSelectNewFileSystemSnapshotFile.TabIndex = 5;
+            this.btnSelectNewFileSystemSnapshotFile.Text = "Select new file";
+            this.btnSelectNewFileSystemSnapshotFile.UseVisualStyleBackColor = true;
+            this.btnSelectNewFileSystemSnapshotFile.Click += new System.EventHandler(this.btnSelectNewFileSystemSnapshotFile_Click);
             // 
-            // btnSelectFirstFileSystemSnapshotFile
+            // btnSelectOldFileSystemSnapshotFile
             // 
-            this.btnSelectFirstFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFirstFileSystemSnapshotFile.Location = new System.Drawing.Point(477, 19);
-            this.btnSelectFirstFileSystemSnapshotFile.Name = "btnSelectFirstFileSystemSnapshotFile";
-            this.btnSelectFirstFileSystemSnapshotFile.Size = new System.Drawing.Size(100, 22);
-            this.btnSelectFirstFileSystemSnapshotFile.TabIndex = 4;
-            this.btnSelectFirstFileSystemSnapshotFile.Text = "Select first file";
-            this.btnSelectFirstFileSystemSnapshotFile.UseVisualStyleBackColor = true;
-            this.btnSelectFirstFileSystemSnapshotFile.Click += new System.EventHandler(this.btnSelectFirstFileSystemSnapshotFile_Click);
+            this.btnSelectOldFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectOldFileSystemSnapshotFile.Location = new System.Drawing.Point(477, 19);
+            this.btnSelectOldFileSystemSnapshotFile.Name = "btnSelectOldFileSystemSnapshotFile";
+            this.btnSelectOldFileSystemSnapshotFile.Size = new System.Drawing.Size(100, 22);
+            this.btnSelectOldFileSystemSnapshotFile.TabIndex = 4;
+            this.btnSelectOldFileSystemSnapshotFile.Text = "Select old file";
+            this.btnSelectOldFileSystemSnapshotFile.UseVisualStyleBackColor = true;
+            this.btnSelectOldFileSystemSnapshotFile.Click += new System.EventHandler(this.btnSelectOldFileSystemSnapshotFile_Click);
             // 
-            // txtSecondFileSystemSnapshotFile
+            // txtNewFileSystemSnapshotFile
             // 
-            this.txtSecondFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtNewFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSecondFileSystemSnapshotFile.Location = new System.Drawing.Point(5, 44);
-            this.txtSecondFileSystemSnapshotFile.Name = "txtSecondFileSystemSnapshotFile";
-            this.txtSecondFileSystemSnapshotFile.Size = new System.Drawing.Size(467, 20);
-            this.txtSecondFileSystemSnapshotFile.TabIndex = 3;
+            this.txtNewFileSystemSnapshotFile.Location = new System.Drawing.Point(5, 44);
+            this.txtNewFileSystemSnapshotFile.Name = "txtNewFileSystemSnapshotFile";
+            this.txtNewFileSystemSnapshotFile.Size = new System.Drawing.Size(467, 20);
+            this.txtNewFileSystemSnapshotFile.TabIndex = 3;
             // 
-            // txtFirstFileSystemSnapshotFile
+            // txtOldFileSystemSnapshotFile
             // 
-            this.txtFirstFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtOldFileSystemSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFirstFileSystemSnapshotFile.Location = new System.Drawing.Point(5, 19);
-            this.txtFirstFileSystemSnapshotFile.Name = "txtFirstFileSystemSnapshotFile";
-            this.txtFirstFileSystemSnapshotFile.Size = new System.Drawing.Size(467, 20);
-            this.txtFirstFileSystemSnapshotFile.TabIndex = 2;
+            this.txtOldFileSystemSnapshotFile.Location = new System.Drawing.Point(5, 19);
+            this.txtOldFileSystemSnapshotFile.Name = "txtOldFileSystemSnapshotFile";
+            this.txtOldFileSystemSnapshotFile.Size = new System.Drawing.Size(467, 20);
+            this.txtOldFileSystemSnapshotFile.TabIndex = 2;
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.btnCompareRegistrySnapshots);
-            this.groupBox2.Controls.Add(this.btnSelectSecondRegistrySnapshotFile);
-            this.groupBox2.Controls.Add(this.btnSelectFirstRegistrySnapshotFile);
-            this.groupBox2.Controls.Add(this.txtSecondRegistrySnapshotFile);
-            this.groupBox2.Controls.Add(this.txtFirstRegistrySnapshotFile);
+            this.groupBox2.Controls.Add(this.btnSelectNewRegistrySnapshotFile);
+            this.groupBox2.Controls.Add(this.btnSelectOldRegistrySnapshotFile);
+            this.groupBox2.Controls.Add(this.txtNewRegistrySnapshotFile);
+            this.groupBox2.Controls.Add(this.txtOldRegistrySnapshotFile);
             this.groupBox2.Location = new System.Drawing.Point(10, 180);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(743, 78);
@@ -202,55 +202,55 @@ namespace WindowsSnapshots
             this.btnCompareRegistrySnapshots.UseVisualStyleBackColor = true;
             this.btnCompareRegistrySnapshots.Click += new System.EventHandler(this.btnCompareRegistrySnapshots_Click);
             // 
-            // btnSelectSecondRegistrySnapshotFile
+            // btnSelectNewRegistrySnapshotFile
             // 
-            this.btnSelectSecondRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectSecondRegistrySnapshotFile.Location = new System.Drawing.Point(477, 43);
-            this.btnSelectSecondRegistrySnapshotFile.Name = "btnSelectSecondRegistrySnapshotFile";
-            this.btnSelectSecondRegistrySnapshotFile.Size = new System.Drawing.Size(100, 22);
-            this.btnSelectSecondRegistrySnapshotFile.TabIndex = 5;
-            this.btnSelectSecondRegistrySnapshotFile.Text = "Select second file";
-            this.btnSelectSecondRegistrySnapshotFile.UseVisualStyleBackColor = true;
-            this.btnSelectSecondRegistrySnapshotFile.Click += new System.EventHandler(this.btnSelectSecondRegistrySnapshotFile_Click);
+            this.btnSelectNewRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectNewRegistrySnapshotFile.Location = new System.Drawing.Point(477, 43);
+            this.btnSelectNewRegistrySnapshotFile.Name = "btnSelectNewRegistrySnapshotFile";
+            this.btnSelectNewRegistrySnapshotFile.Size = new System.Drawing.Size(100, 22);
+            this.btnSelectNewRegistrySnapshotFile.TabIndex = 5;
+            this.btnSelectNewRegistrySnapshotFile.Text = "Select new file";
+            this.btnSelectNewRegistrySnapshotFile.UseVisualStyleBackColor = true;
+            this.btnSelectNewRegistrySnapshotFile.Click += new System.EventHandler(this.btnSelectNewRegistrySnapshotFile_Click);
             // 
-            // btnSelectFirstRegistrySnapshotFile
+            // btnSelectOldRegistrySnapshotFile
             // 
-            this.btnSelectFirstRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFirstRegistrySnapshotFile.Location = new System.Drawing.Point(477, 18);
-            this.btnSelectFirstRegistrySnapshotFile.Name = "btnSelectFirstRegistrySnapshotFile";
-            this.btnSelectFirstRegistrySnapshotFile.Size = new System.Drawing.Size(100, 22);
-            this.btnSelectFirstRegistrySnapshotFile.TabIndex = 4;
-            this.btnSelectFirstRegistrySnapshotFile.Text = "Select first file";
-            this.btnSelectFirstRegistrySnapshotFile.UseVisualStyleBackColor = true;
-            this.btnSelectFirstRegistrySnapshotFile.Click += new System.EventHandler(this.btnSelectFirstRegistrySnapshotFile_Click);
+            this.btnSelectOldRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectOldRegistrySnapshotFile.Location = new System.Drawing.Point(477, 18);
+            this.btnSelectOldRegistrySnapshotFile.Name = "btnSelectOldRegistrySnapshotFile";
+            this.btnSelectOldRegistrySnapshotFile.Size = new System.Drawing.Size(100, 22);
+            this.btnSelectOldRegistrySnapshotFile.TabIndex = 4;
+            this.btnSelectOldRegistrySnapshotFile.Text = "Select old file";
+            this.btnSelectOldRegistrySnapshotFile.UseVisualStyleBackColor = true;
+            this.btnSelectOldRegistrySnapshotFile.Click += new System.EventHandler(this.btnSelectOldRegistrySnapshotFile_Click);
             // 
-            // txtSecondRegistrySnapshotFile
+            // txtNewRegistrySnapshotFile
             // 
-            this.txtSecondRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtNewRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSecondRegistrySnapshotFile.Location = new System.Drawing.Point(5, 44);
-            this.txtSecondRegistrySnapshotFile.Name = "txtSecondRegistrySnapshotFile";
-            this.txtSecondRegistrySnapshotFile.Size = new System.Drawing.Size(467, 20);
-            this.txtSecondRegistrySnapshotFile.TabIndex = 3;
+            this.txtNewRegistrySnapshotFile.Location = new System.Drawing.Point(5, 44);
+            this.txtNewRegistrySnapshotFile.Name = "txtNewRegistrySnapshotFile";
+            this.txtNewRegistrySnapshotFile.Size = new System.Drawing.Size(467, 20);
+            this.txtNewRegistrySnapshotFile.TabIndex = 3;
             // 
-            // txtFirstRegistrySnapshotFile
+            // txtOldRegistrySnapshotFile
             // 
-            this.txtFirstRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtOldRegistrySnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFirstRegistrySnapshotFile.Location = new System.Drawing.Point(5, 19);
-            this.txtFirstRegistrySnapshotFile.Name = "txtFirstRegistrySnapshotFile";
-            this.txtFirstRegistrySnapshotFile.Size = new System.Drawing.Size(467, 20);
-            this.txtFirstRegistrySnapshotFile.TabIndex = 2;
+            this.txtOldRegistrySnapshotFile.Location = new System.Drawing.Point(5, 19);
+            this.txtOldRegistrySnapshotFile.Name = "txtOldRegistrySnapshotFile";
+            this.txtOldRegistrySnapshotFile.Size = new System.Drawing.Size(467, 20);
+            this.txtOldRegistrySnapshotFile.TabIndex = 2;
             // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.btnCompareOthersSnapshots);
-            this.groupBox3.Controls.Add(this.btnSelectSecondOthersSnapshotFile);
-            this.groupBox3.Controls.Add(this.btnSelectFirstServicesSnapshotFile);
-            this.groupBox3.Controls.Add(this.txtSecondServicesSnapshotFile);
-            this.groupBox3.Controls.Add(this.txtFirstOthersSnapshotFile);
+            this.groupBox3.Controls.Add(this.btnSelectNewOthersSnapshotFile);
+            this.groupBox3.Controls.Add(this.btnSelectOldServicesSnapshotFile);
+            this.groupBox3.Controls.Add(this.txtNewServicesSnapshotFile);
+            this.groupBox3.Controls.Add(this.txtOldOthersSnapshotFile);
             this.groupBox3.Location = new System.Drawing.Point(10, 264);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(743, 78);
@@ -269,45 +269,45 @@ namespace WindowsSnapshots
             this.btnCompareOthersSnapshots.UseVisualStyleBackColor = true;
             this.btnCompareOthersSnapshots.Click += new System.EventHandler(this.btnCompareOthersSnapshots_Click);
             // 
-            // btnSelectSecondOthersSnapshotFile
+            // btnSelectNewOthersSnapshotFile
             // 
-            this.btnSelectSecondOthersSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectSecondOthersSnapshotFile.Location = new System.Drawing.Point(477, 43);
-            this.btnSelectSecondOthersSnapshotFile.Name = "btnSelectSecondOthersSnapshotFile";
-            this.btnSelectSecondOthersSnapshotFile.Size = new System.Drawing.Size(100, 22);
-            this.btnSelectSecondOthersSnapshotFile.TabIndex = 5;
-            this.btnSelectSecondOthersSnapshotFile.Text = "Select second file";
-            this.btnSelectSecondOthersSnapshotFile.UseVisualStyleBackColor = true;
-            this.btnSelectSecondOthersSnapshotFile.Click += new System.EventHandler(this.btnSelectSecondOthersSnapshotFile_Click);
+            this.btnSelectNewOthersSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectNewOthersSnapshotFile.Location = new System.Drawing.Point(477, 43);
+            this.btnSelectNewOthersSnapshotFile.Name = "btnSelectNewOthersSnapshotFile";
+            this.btnSelectNewOthersSnapshotFile.Size = new System.Drawing.Size(100, 22);
+            this.btnSelectNewOthersSnapshotFile.TabIndex = 5;
+            this.btnSelectNewOthersSnapshotFile.Text = "Select new file";
+            this.btnSelectNewOthersSnapshotFile.UseVisualStyleBackColor = true;
+            this.btnSelectNewOthersSnapshotFile.Click += new System.EventHandler(this.btnSelectNewOthersSnapshotFile_Click);
             // 
-            // btnSelectFirstServicesSnapshotFile
+            // btnSelectOldServicesSnapshotFile
             // 
-            this.btnSelectFirstServicesSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFirstServicesSnapshotFile.Location = new System.Drawing.Point(477, 18);
-            this.btnSelectFirstServicesSnapshotFile.Name = "btnSelectFirstServicesSnapshotFile";
-            this.btnSelectFirstServicesSnapshotFile.Size = new System.Drawing.Size(100, 22);
-            this.btnSelectFirstServicesSnapshotFile.TabIndex = 4;
-            this.btnSelectFirstServicesSnapshotFile.Text = "Select first file";
-            this.btnSelectFirstServicesSnapshotFile.UseVisualStyleBackColor = true;
-            this.btnSelectFirstServicesSnapshotFile.Click += new System.EventHandler(this.btnSelectFirstOthersSnapshotFile_Click);
+            this.btnSelectOldServicesSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectOldServicesSnapshotFile.Location = new System.Drawing.Point(477, 18);
+            this.btnSelectOldServicesSnapshotFile.Name = "btnSelectOldServicesSnapshotFile";
+            this.btnSelectOldServicesSnapshotFile.Size = new System.Drawing.Size(100, 22);
+            this.btnSelectOldServicesSnapshotFile.TabIndex = 4;
+            this.btnSelectOldServicesSnapshotFile.Text = "Select old file";
+            this.btnSelectOldServicesSnapshotFile.UseVisualStyleBackColor = true;
+            this.btnSelectOldServicesSnapshotFile.Click += new System.EventHandler(this.btnSelectOldOthersSnapshotFile_Click);
             // 
-            // txtSecondServicesSnapshotFile
+            // txtNewServicesSnapshotFile
             // 
-            this.txtSecondServicesSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtNewServicesSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSecondServicesSnapshotFile.Location = new System.Drawing.Point(5, 44);
-            this.txtSecondServicesSnapshotFile.Name = "txtSecondServicesSnapshotFile";
-            this.txtSecondServicesSnapshotFile.Size = new System.Drawing.Size(467, 20);
-            this.txtSecondServicesSnapshotFile.TabIndex = 3;
+            this.txtNewServicesSnapshotFile.Location = new System.Drawing.Point(5, 44);
+            this.txtNewServicesSnapshotFile.Name = "txtNewServicesSnapshotFile";
+            this.txtNewServicesSnapshotFile.Size = new System.Drawing.Size(467, 20);
+            this.txtNewServicesSnapshotFile.TabIndex = 3;
             // 
-            // txtFirstOthersSnapshotFile
+            // txtOldOthersSnapshotFile
             // 
-            this.txtFirstOthersSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtOldOthersSnapshotFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFirstOthersSnapshotFile.Location = new System.Drawing.Point(5, 19);
-            this.txtFirstOthersSnapshotFile.Name = "txtFirstOthersSnapshotFile";
-            this.txtFirstOthersSnapshotFile.Size = new System.Drawing.Size(467, 20);
-            this.txtFirstOthersSnapshotFile.TabIndex = 2;
+            this.txtOldOthersSnapshotFile.Location = new System.Drawing.Point(5, 19);
+            this.txtOldOthersSnapshotFile.Name = "txtOldOthersSnapshotFile";
+            this.txtOldOthersSnapshotFile.Size = new System.Drawing.Size(467, 20);
+            this.txtOldOthersSnapshotFile.TabIndex = 2;
             // 
             // lblUsersFolderPath
             // 
@@ -369,22 +369,22 @@ namespace WindowsSnapshots
         private System.Windows.Forms.Button btnFileSystemSnapshot;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnCompareFileSystemSnapshots;
-        private System.Windows.Forms.Button btnSelectFirstFileSystemSnapshotFile;
-        private System.Windows.Forms.TextBox txtSecondFileSystemSnapshotFile;
-        private System.Windows.Forms.TextBox txtFirstFileSystemSnapshotFile;
+        private System.Windows.Forms.Button btnSelectOldFileSystemSnapshotFile;
+        private System.Windows.Forms.TextBox txtNewFileSystemSnapshotFile;
+        private System.Windows.Forms.TextBox txtOldFileSystemSnapshotFile;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnCompareRegistrySnapshots;
-        private System.Windows.Forms.Button btnSelectSecondRegistrySnapshotFile;
-        private System.Windows.Forms.Button btnSelectFirstRegistrySnapshotFile;
-        private System.Windows.Forms.TextBox txtSecondRegistrySnapshotFile;
-        private System.Windows.Forms.TextBox txtFirstRegistrySnapshotFile;
-        private System.Windows.Forms.Button btnSelectSecondFileSystemSnapshotFile;
+        private System.Windows.Forms.Button btnSelectNewRegistrySnapshotFile;
+        private System.Windows.Forms.Button btnSelectOldRegistrySnapshotFile;
+        private System.Windows.Forms.TextBox txtNewRegistrySnapshotFile;
+        private System.Windows.Forms.TextBox txtOldRegistrySnapshotFile;
+        private System.Windows.Forms.Button btnSelectNewFileSystemSnapshotFile;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnCompareOthersSnapshots;
-        private System.Windows.Forms.Button btnSelectSecondOthersSnapshotFile;
-        private System.Windows.Forms.Button btnSelectFirstServicesSnapshotFile;
-        private System.Windows.Forms.TextBox txtSecondServicesSnapshotFile;
-        private System.Windows.Forms.TextBox txtFirstOthersSnapshotFile;
+        private System.Windows.Forms.Button btnSelectNewOthersSnapshotFile;
+        private System.Windows.Forms.Button btnSelectOldServicesSnapshotFile;
+        private System.Windows.Forms.TextBox txtNewServicesSnapshotFile;
+        private System.Windows.Forms.TextBox txtOldOthersSnapshotFile;
         private System.Windows.Forms.TextBox lblUsersFolderPath;
         private System.Windows.Forms.Button btnOthersSnapshot;
     }

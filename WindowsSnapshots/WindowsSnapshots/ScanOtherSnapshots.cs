@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -14,27 +13,27 @@ namespace WindowsSnapshots
 
         }
 
-        public static string CompareFiles(string firstFile, string secondFile, Action<string> showStatusAction)
+        public static string CompareFiles(string oldFile, string newFile, Action<string> showStatusAction)
         {
-            if (!File.Exists(firstFile))
-                throw new Exception($"ERROR! The first file '{Path.GetFileName(firstFile)}' doesn't exist'");
-            if (!File.Exists(secondFile))
-                throw new Exception($"ERROR! The second file '{Path.GetFileName(secondFile)}' doesn't exist'");
+            if (!File.Exists(oldFile))
+                throw new Exception($"ERROR! The old file '{Path.GetFileName(oldFile)}' doesn't exist'");
+            if (!File.Exists(newFile))
+                throw new Exception($"ERROR! The new file '{Path.GetFileName(newFile)}' doesn't exist'");
 
-            var s = Path.GetFileNameWithoutExtension(firstFile);
+            var s = Path.GetFileNameWithoutExtension(oldFile);
             var i1 = s.IndexOf('_');
             var i2 = s.LastIndexOf('_');
             var diskLabel = s.Substring(i1 + 1, i2 - i1 - 1);
-            var differenceFileName = Path.Combine(Path.GetDirectoryName(firstFile),
+            var differenceFileName = Path.Combine(Path.GetDirectoryName(oldFile),
                 $"OthersDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
 
-            showStatusAction($"Parsing the first file ..");
-            var fileLines1 = ReadZipFile(firstFile);
-            var fileLines2 = ReadZipFile(secondFile);
+            showStatusAction($"Parsing the old file ..");
+            var fileLines1 = ReadZipFile(oldFile);
+            var fileLines2 = ReadZipFile(newFile);
 
             var printData = new List<string>
             {
-                $"OTHERS DIFFERENCES\t{Path.GetFileNameWithoutExtension(firstFile)}\t{Path.GetFileNameWithoutExtension(secondFile)}"
+                $"OTHERS DIFFERENCES\t{Path.GetFileNameWithoutExtension(oldFile)}\t{Path.GetFileNameWithoutExtension(newFile)}"
             };
 
             // ======  FIREWALL  =======

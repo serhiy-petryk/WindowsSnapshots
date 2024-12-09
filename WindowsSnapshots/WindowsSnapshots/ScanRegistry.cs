@@ -17,30 +17,30 @@ namespace WindowsSnapshots
 
         public static void Start()
         {
-            var firstFile = @"E:\Temp\Reg\Registry_SSD_240_202411151520.zip";
-            var secondFile = @"E:\Temp\Reg\Registry_SSD_240_202411152215.zip";
+            var oldFile = @"E:\Temp\Reg\Registry_SSD_240_202411151520.zip";
+            var newFile = @"E:\Temp\Reg\Registry_SSD_240_202411152215.zip";
             // 334 items
-            var differenceFileName = CompareRegistryFiles(firstFile, secondFile, Helpers.FakeShowStatus);
+            var differenceFileName = CompareRegistryFiles(oldFile, newFile, Helpers.FakeShowStatus);
         }
 
-        public static string CompareRegistryFiles(string firstFile, string secondFile, Action<string> showStatusAction)
+        public static string CompareRegistryFiles(string oldFile, string newFile, Action<string> showStatusAction)
         {
-            if (!File.Exists(firstFile))
-                throw new Exception($"ERROR! The first file '{Path.GetFileName(firstFile)}' doesn't exist'");
-            if (!File.Exists(secondFile))
-                throw new Exception($"ERROR! The second file '{Path.GetFileName(secondFile)}' doesn't exist'");
+            if (!File.Exists(oldFile))
+                throw new Exception($"ERROR! The old file '{Path.GetFileName(oldFile)}' doesn't exist'");
+            if (!File.Exists(newFile))
+                throw new Exception($"ERROR! The new file '{Path.GetFileName(newFile)}' doesn't exist'");
 
-            var s = Path.GetFileNameWithoutExtension(firstFile);
+            var s = Path.GetFileNameWithoutExtension(oldFile);
             var i1 = s.IndexOf('_');
             var i2 = s.LastIndexOf('_');
             var diskLabel = s.Substring(i1 + 1, i2 - i1 - 1);
-            var differenceFileName = Path.Combine(Path.GetDirectoryName(firstFile), $"RegistryDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
+            var differenceFileName = Path.Combine(Path.GetDirectoryName(oldFile), $"RegistryDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
 
-            showStatusAction($"Parsing the first file ..");
-            var data1 = ParseZipRegistryFile(firstFile); // 1'879'365
+            showStatusAction($"Parsing the old file ..");
+            var data1 = ParseZipRegistryFile(oldFile); // 1'879'365
 
-            showStatusAction($"Parsing the second file ..");
-            var data2 = ParseZipRegistryFile(secondFile);
+            showStatusAction($"Parsing the new file ..");
+            var data2 = ParseZipRegistryFile(newFile);
             var skipKeys = Settings.RegistrySkipKeys;
             var difference = new Dictionary<string, (string, string)>();
             foreach (var kvp in data1)
@@ -65,7 +65,7 @@ namespace WindowsSnapshots
             // Save difference
             showStatusAction($"Saving data ..");
             var data = new List<string>();
-            data.Add($"Registry difference: {Path.GetFileName(firstFile)} and {Path.GetFileName(secondFile)}");
+            data.Add($"Registry difference: {Path.GetFileName(oldFile)} and {Path.GetFileName(newFile)}");
             data.Add("Key\tValue1\tValue2");
             foreach (var kvp in difference.OrderBy(a => a.Key.StartsWith("@") ? a.Key.Substring(1) : a.Key).ToArray())
                 data.Add($"{kvp.Key}\t{GetLogValue(kvp.Value.Item1)}\t{GetLogValue(kvp.Value.Item2)}");

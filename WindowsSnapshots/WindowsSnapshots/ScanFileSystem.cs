@@ -19,24 +19,24 @@ namespace WindowsSnapshots
             var differenceFileName = CompareScanFiles(logFileName1, logFileName2);*/
         }
 
-        public static string CompareFileSystemFiles(string firstFile, string secondFile, Action<string> showStatusAction)
+        public static string CompareFileSystemFiles(string oldFile, string newFile, Action<string> showStatusAction)
         {
-            if (!File.Exists(firstFile))
-                throw new Exception($"ERROR! The first file '{Path.GetFileName(firstFile)}' doesn't exist'");
-            if (!File.Exists(secondFile))
-                throw new Exception($"ERROR! The second file '{Path.GetFileName(secondFile)}' doesn't exist'");
+            if (!File.Exists(oldFile))
+                throw new Exception($"ERROR! The old file '{Path.GetFileName(oldFile)}' doesn't exist'");
+            if (!File.Exists(newFile))
+                throw new Exception($"ERROR! The new file '{Path.GetFileName(newFile)}' doesn't exist'");
 
-            var s = Path.GetFileNameWithoutExtension(firstFile);
+            var s = Path.GetFileNameWithoutExtension(oldFile);
             var i1 = s.IndexOf('_');
             var i2 = s.LastIndexOf('_');
             var diskLabel = s.Substring(i1 + 1, i2 - i1 - 1);
-            var differenceFileName = Path.Combine(Path.GetDirectoryName(firstFile), $"FileSystemDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
+            var differenceFileName = Path.Combine(Path.GetDirectoryName(oldFile), $"FileSystemDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
 
-            showStatusAction($"Parsing the first file ..");
-            var data1 = ParseZipScanFile(firstFile); // 1'879'365
+            showStatusAction($"Parsing the old file ..");
+            var data1 = ParseZipScanFile(oldFile); // 1'879'365
 
-            showStatusAction($"Parsing the second file ..");
-            var data2 = ParseZipScanFile(secondFile);
+            showStatusAction($"Parsing the new file ..");
+            var data2 = ParseZipScanFile(newFile);
 
             var skipKeys = Settings.FileSystemSkipKeys;
             var difference = new Dictionary<string, (string, string)>();
@@ -62,7 +62,7 @@ namespace WindowsSnapshots
             // Save difference
             showStatusAction($"Saving data ..");
             var data = new List<string>();
-            data.Add($"#\tFiles difference: {Path.GetFileName(firstFile)} and {Path.GetFileName(secondFile)}");
+            data.Add($"#\tFiles difference: {Path.GetFileName(oldFile)} and {Path.GetFileName(newFile)}");
             data.Add("Type\tName\tDiff\tWritten1\tWritten2\tCreated1\tCreated2\tAccessed1\tAccessed2\tSize1\tSize2");
             data.AddRange(difference.OrderBy(a=>a.Key.Split('\t')[1]).Select(GetDiffLine));
             Helpers.SaveStringsToZipFile(differenceFileName, data);
