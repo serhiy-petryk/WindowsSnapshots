@@ -18,7 +18,7 @@ namespace WindowsSnapshots
             // Helpers.GetAllSpecialFolders();
             // ScanServices.Start();
             // ScanFirewall.Temp();
-            ScanTaskScheduler.Test();
+            // ScanTaskScheduler.Test();
             // Helpers.Test();
 
             Settings.SetZipLibrary();

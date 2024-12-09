@@ -278,5 +278,24 @@ namespace WindowsSnapshots
             btnTasksSnapshot.Enabled = true;
 
         }
+
+        private async void btnOthersSnapshot_Click(object sender, EventArgs e)
+        {
+            btnOthersSnapshot.Enabled = false;
+            try
+            {
+                var task = ScanOtherSnapshots.SaveSnapshotsIntoFile(GetDataFolder(), ShowStatus);
+                await Task.Factory.StartNew(() => task);
+                ShowStatus($"New OtherSnapshots file is {task}");
+                MessageBox.Show($"New OtherSnapshots file is {task}");
+            }
+            catch (Exception exception)
+            {
+                ShowStatus(exception.Message);
+                MessageBox.Show(exception.Message);
+            }
+
+            btnOthersSnapshot.Enabled = true;
+        }
     }
 }

@@ -56,6 +56,7 @@ namespace WindowsSnapshots
             this.lblUsersFolderPath = new System.Windows.Forms.TextBox();
             this.btnFirewallRulesSnapshot = new System.Windows.Forms.Button();
             this.btnTasksSnapshot = new System.Windows.Forms.Button();
+            this.btnOthersSnapshot = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -247,7 +248,7 @@ namespace WindowsSnapshots
             // btnServicesSnapshot
             // 
             this.btnServicesSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnServicesSnapshot.Location = new System.Drawing.Point(592, 35);
+            this.btnServicesSnapshot.Location = new System.Drawing.Point(431, 61);
             this.btnServicesSnapshot.Name = "btnServicesSnapshot";
             this.btnServicesSnapshot.Size = new System.Drawing.Size(156, 22);
             this.btnServicesSnapshot.TabIndex = 6;
@@ -336,7 +337,7 @@ namespace WindowsSnapshots
             // btnFirewallRulesSnapshot
             // 
             this.btnFirewallRulesSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFirewallRulesSnapshot.Location = new System.Drawing.Point(592, 63);
+            this.btnFirewallRulesSnapshot.Location = new System.Drawing.Point(252, 61);
             this.btnFirewallRulesSnapshot.Name = "btnFirewallRulesSnapshot";
             this.btnFirewallRulesSnapshot.Size = new System.Drawing.Size(156, 22);
             this.btnFirewallRulesSnapshot.TabIndex = 10;
@@ -347,7 +348,7 @@ namespace WindowsSnapshots
             // btnTasksSnapshot
             // 
             this.btnTasksSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTasksSnapshot.Location = new System.Drawing.Point(402, 63);
+            this.btnTasksSnapshot.Location = new System.Drawing.Point(62, 61);
             this.btnTasksSnapshot.Name = "btnTasksSnapshot";
             this.btnTasksSnapshot.Size = new System.Drawing.Size(164, 22);
             this.btnTasksSnapshot.TabIndex = 11;
@@ -355,11 +356,23 @@ namespace WindowsSnapshots
             this.btnTasksSnapshot.UseVisualStyleBackColor = true;
             this.btnTasksSnapshot.Click += new System.EventHandler(this.btnTasksSnapshot_Click);
             // 
+            // btnOthersSnapshot
+            // 
+            this.btnOthersSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOthersSnapshot.Location = new System.Drawing.Point(592, 35);
+            this.btnOthersSnapshot.Name = "btnOthersSnapshot";
+            this.btnOthersSnapshot.Size = new System.Drawing.Size(156, 48);
+            this.btnOthersSnapshot.TabIndex = 12;
+            this.btnOthersSnapshot.Text = "Make others snapshot (firewall, services, task scheduler)";
+            this.btnOthersSnapshot.UseVisualStyleBackColor = true;
+            this.btnOthersSnapshot.Click += new System.EventHandler(this.btnOthersSnapshot_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(762, 390);
+            this.Controls.Add(this.btnOthersSnapshot);
             this.Controls.Add(this.btnTasksSnapshot);
             this.Controls.Add(this.btnFirewallRulesSnapshot);
             this.Controls.Add(this.lblUsersFolderPath);
@@ -415,6 +428,7 @@ namespace WindowsSnapshots
         private System.Windows.Forms.TextBox lblUsersFolderPath;
         private System.Windows.Forms.Button btnFirewallRulesSnapshot;
         private System.Windows.Forms.Button btnTasksSnapshot;
+        private System.Windows.Forms.Button btnOthersSnapshot;
     }
 }
 
