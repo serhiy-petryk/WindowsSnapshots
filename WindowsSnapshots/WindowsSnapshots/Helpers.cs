@@ -45,9 +45,9 @@ namespace WindowsSnapshots
 
         public static void SaveStringsToZipFile(string zipFileName, IEnumerable<string> data)
         {
-            var entry = new VirtualFileEntry($"{Path.GetFileNameWithoutExtension(zipFileName)}.txt",
-                System.Text.Encoding.UTF8.GetBytes(string.Join(Environment.NewLine, data)));
-            Helpers.ZipVirtualFileEntries(zipFileName, new[] { entry });
+            using (var entry = new VirtualFileEntry($"{Path.GetFileNameWithoutExtension(zipFileName)}.txt",
+                       System.Text.Encoding.UTF8.GetBytes(string.Join(Environment.NewLine, data))))
+                Helpers.ZipVirtualFileEntries(zipFileName, new[] { entry });
         }
 
         public static IEnumerable<string> GetLinesOfZipEntry(this ZipArchiveEntry entry)
