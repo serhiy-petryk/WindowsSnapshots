@@ -15,11 +15,11 @@ namespace WindowsSnapshots
             if (!File.Exists(newFile))
                 throw new Exception($"ERROR! The new file '{Path.GetFileName(newFile)}' doesn't exist'");
 
-            var s = Path.GetFileNameWithoutExtension(oldFile);
+            var s = Path.GetFileNameWithoutExtension(newFile);
             var i1 = s.IndexOf('_');
             var i2 = s.LastIndexOf('_');
             var diskLabel = s.Substring(i1 + 1, i2 - i1 - 1);
-            var differenceFileName = Path.Combine(Path.GetDirectoryName(oldFile), $"FileSystemDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
+            var differenceFileName = Path.Combine(Path.GetDirectoryName(newFile), $"FileSystemDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
 
             showStatusAction($"Parsing the old file ..");
             var data1 = ParseZipScanFile(oldFile); // 1'879'365
@@ -74,8 +74,8 @@ namespace WindowsSnapshots
 
                 string s0;
                 if (ss1.Length == 0 && ss2.Length == 0) s0 = "Denied";
-                else if (ss1.Length == 0) s0 = "Only2";
-                else if (ss2.Length == 0) s0 = "Only1";
+                else if (ss1.Length == 0) s0 = "<NEW>";
+                else if (ss2.Length == 0) s0 = "<OLD>";
                 else if (ss1.Length > 5 && ss2.Length > 5 && !string.Equals(s7, s8)) s0 = "Size";
                 else if (ss1.Length > 2 && ss2.Length > 2 && !string.Equals(s1, s2)) s0 = "Written";
                 else if (ss1.Length > 3 && ss2.Length > 3 && !string.Equals(s3, s4)) s0 = "Created";

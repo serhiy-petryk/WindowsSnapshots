@@ -54,6 +54,8 @@ namespace WindowsSnapshots
             this.txtOldOthersSnapshotFile = new System.Windows.Forms.TextBox();
             this.lblUsersFolderPath = new System.Windows.Forms.TextBox();
             this.btnOthersSnapshot = new System.Windows.Forms.Button();
+            this.lblRegistryFileName = new System.Windows.Forms.TextBox();
+            this.btnRegistrySnapshot = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -100,7 +102,7 @@ namespace WindowsSnapshots
             // btnFileSystemSnapshot
             // 
             this.btnFileSystemSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFileSystemSnapshot.Location = new System.Drawing.Point(592, 10);
+            this.btnFileSystemSnapshot.Location = new System.Drawing.Point(589, 35);
             this.btnFileSystemSnapshot.Name = "btnFileSystemSnapshot";
             this.btnFileSystemSnapshot.Size = new System.Drawing.Size(156, 22);
             this.btnFileSystemSnapshot.TabIndex = 3;
@@ -117,7 +119,7 @@ namespace WindowsSnapshots
             this.groupBox1.Controls.Add(this.btnSelectOldFileSystemSnapshotFile);
             this.groupBox1.Controls.Add(this.txtNewFileSystemSnapshotFile);
             this.groupBox1.Controls.Add(this.txtOldFileSystemSnapshotFile);
-            this.groupBox1.Location = new System.Drawing.Point(10, 96);
+            this.groupBox1.Location = new System.Drawing.Point(12, 196);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(743, 78);
             this.groupBox1.TabIndex = 4;
@@ -184,7 +186,7 @@ namespace WindowsSnapshots
             this.groupBox2.Controls.Add(this.btnSelectOldRegistrySnapshotFile);
             this.groupBox2.Controls.Add(this.txtNewRegistrySnapshotFile);
             this.groupBox2.Controls.Add(this.txtOldRegistrySnapshotFile);
-            this.groupBox2.Location = new System.Drawing.Point(10, 180);
+            this.groupBox2.Location = new System.Drawing.Point(12, 112);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(743, 78);
             this.groupBox2.TabIndex = 5;
@@ -251,7 +253,7 @@ namespace WindowsSnapshots
             this.groupBox3.Controls.Add(this.btnSelectOldServicesSnapshotFile);
             this.groupBox3.Controls.Add(this.txtNewServicesSnapshotFile);
             this.groupBox3.Controls.Add(this.txtOldOthersSnapshotFile);
-            this.groupBox3.Location = new System.Drawing.Point(10, 264);
+            this.groupBox3.Location = new System.Drawing.Point(7, 280);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(743, 78);
             this.groupBox3.TabIndex = 7;
@@ -323,7 +325,7 @@ namespace WindowsSnapshots
             // btnOthersSnapshot
             // 
             this.btnOthersSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOthersSnapshot.Location = new System.Drawing.Point(592, 35);
+            this.btnOthersSnapshot.Location = new System.Drawing.Point(589, 60);
             this.btnOthersSnapshot.Name = "btnOthersSnapshot";
             this.btnOthersSnapshot.Size = new System.Drawing.Size(156, 48);
             this.btnOthersSnapshot.TabIndex = 12;
@@ -331,11 +333,35 @@ namespace WindowsSnapshots
             this.btnOthersSnapshot.UseVisualStyleBackColor = true;
             this.btnOthersSnapshot.Click += new System.EventHandler(this.btnOthersSnapshot_Click);
             // 
+            // lblRegistryFileName
+            // 
+            this.lblRegistryFileName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblRegistryFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblRegistryFileName.Location = new System.Drawing.Point(15, 70);
+            this.lblRegistryFileName.Name = "lblRegistryFileName";
+            this.lblRegistryFileName.ReadOnly = true;
+            this.lblRegistryFileName.Size = new System.Drawing.Size(467, 13);
+            this.lblRegistryFileName.TabIndex = 13;
+            this.lblRegistryFileName.Text = "lblRegistryFileName";
+            // 
+            // btnRegistrySnapshot
+            // 
+            this.btnRegistrySnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRegistrySnapshot.Location = new System.Drawing.Point(589, 5);
+            this.btnRegistrySnapshot.Name = "btnRegistrySnapshot";
+            this.btnRegistrySnapshot.Size = new System.Drawing.Size(156, 22);
+            this.btnRegistrySnapshot.TabIndex = 14;
+            this.btnRegistrySnapshot.Text = "Make registry snapshot";
+            this.btnRegistrySnapshot.UseVisualStyleBackColor = true;
+            this.btnRegistrySnapshot.Click += new System.EventHandler(this.btnRegistrySnapshot_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(762, 390);
+            this.Controls.Add(this.btnRegistrySnapshot);
+            this.Controls.Add(this.lblRegistryFileName);
             this.Controls.Add(this.btnOthersSnapshot);
             this.Controls.Add(this.lblUsersFolderPath);
             this.Controls.Add(this.groupBox3);
@@ -387,6 +413,8 @@ namespace WindowsSnapshots
         private System.Windows.Forms.TextBox txtOldOthersSnapshotFile;
         private System.Windows.Forms.TextBox lblUsersFolderPath;
         private System.Windows.Forms.Button btnOthersSnapshot;
+        private System.Windows.Forms.TextBox lblRegistryFileName;
+        private System.Windows.Forms.Button btnRegistrySnapshot;
     }
 }
 

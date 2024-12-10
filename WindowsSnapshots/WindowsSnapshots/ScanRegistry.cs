@@ -22,11 +22,11 @@ namespace WindowsSnapshots
             if (!File.Exists(newFile))
                 throw new Exception($"ERROR! The new file '{Path.GetFileName(newFile)}' doesn't exist'");
 
-            var s = Path.GetFileNameWithoutExtension(oldFile);
+            var s = Path.GetFileNameWithoutExtension(newFile);
             var i1 = s.IndexOf('_');
             var i2 = s.LastIndexOf('_');
             var diskLabel = s.Substring(i1 + 1, i2 - i1 - 1);
-            var differenceFileName = Path.Combine(Path.GetDirectoryName(oldFile), $"RegistryDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
+            var differenceFileName = Path.Combine(Path.GetDirectoryName(newFile), $"RegistryDiff_{diskLabel}_{DateTime.Now:yyyyMMddHHmm}.zip");
 
             showStatusAction($"Parsing the old file ..");
             var data1 = ParseZipRegistryFile(oldFile); // 1'879'365

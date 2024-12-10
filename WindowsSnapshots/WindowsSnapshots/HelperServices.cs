@@ -19,7 +19,7 @@ namespace WindowsSnapshots
         {
             var ss1 = string.IsNullOrEmpty(s1) ? new string[4] : s1.Split('\t');
             var ss2 = string.IsNullOrEmpty(s2) ? new string[4] : s2.Split('\t');
-            var diff = ss1[0] == null ? "New" : (ss2[0] == null ? "Old" : null);
+            var diff = ss1[0] == null ? "<NEW>" : (ss2[0] == null ? "<OLD>" : null);
             if (diff != null){}
             else if (ss1[1] != ss2[1]) diff = "DisplayName";
             else if (ss1[2] != ss2[2]) diff = "Status";

@@ -16,6 +16,7 @@ namespace WindowsSnapshots
             if (Helpers.IsAdministrator()) this.Text += " (ADMINISTRATOR mode)";
             lblUsersFolderPath.Text = $"Users folder is {Helpers.GetUsersFolderPath()}";
             lblStatus.Text = "";
+            lblRegistryFileName.Text = "";
             txtDataFolder.Text = Settings.DataFolder;
 
             var dataFolder = GetDataFolder();
@@ -139,6 +140,14 @@ namespace WindowsSnapshots
         #endregion;
 
         #region ============  Registry  =============
+        private void btnRegistrySnapshot_Click(object sender, EventArgs e)
+        {
+            var fileName = Path.Combine(GetDataFolder(), $"Registry_{Helpers.GetSystemDriveLabel()}_{DateTime.Now:yyyyMMddHHmm}.txt");
+            MessageBox.Show(
+                $"To create registry data, please, run 'regedit.exe' program, make export data in '{fileName}' and zip the newly created text file.");
+            lblRegistryFileName.Text = fileName;
+        }
+
         private void btnSelectOldRegistrySnapshotFile_Click(object sender, EventArgs e)
         {
             if (Helpers.OpenFileSystemZipFileDialog(GetDataFolder(), txtOldRegistrySnapshotFile.Text,
