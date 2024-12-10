@@ -8,11 +8,6 @@ namespace WindowsSnapshots
 {
     public static class ScanOtherSnapshots
     {
-        public static void Test()
-        {
-
-        }
-
         public static string CompareFiles(string oldFile, string newFile, Action<string> showStatusAction)
         {
             if (!File.Exists(oldFile))
@@ -119,7 +114,16 @@ namespace WindowsSnapshots
                 if (isDataArea)
                 {
                     if (isHeaderChecked)
-                        data.Add(fnKey(s), s);
+                    {
+                        var key = fnKey(s);
+                        if (data.ContainsKey(key))
+                        {
+                            if (!string.Equals(s, data[key]))
+                                throw new Exception($"Duplicate Firewall: {key}");
+                        }
+                        else
+                            data.Add(key, s);
+                    }
                     else if (string.Equals(s, header)) isHeaderChecked = true;
                     else
                         throw new Exception($"Check header for {header}");

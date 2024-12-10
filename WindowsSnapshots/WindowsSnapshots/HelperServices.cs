@@ -39,6 +39,22 @@ namespace WindowsSnapshots
 
         internal static string GetHeaderString() => "Name\tDisplay name\tStatus\tStart type";
 
-        private static string GetDataString(ServiceController sc) => $"{sc.ServiceName}\t{sc.DisplayName}\t{sc.Status}\t{sc.StartType}";
+        private static string GetDataString(ServiceController sc)
+        {
+            var startType = (string)null;
+            try
+            {
+                startType = sc.StartType.ToString();
+            }
+            catch (System.ComponentModel.Win32Exception ex)
+            {
+                startType = "<ERROR>";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return $"{sc.ServiceName}\t{sc.DisplayName}\t{sc.Status}\t{startType}";
+        }
     }
 }
