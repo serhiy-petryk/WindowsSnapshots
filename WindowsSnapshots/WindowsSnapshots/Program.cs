@@ -14,13 +14,6 @@ namespace WindowsSnapshots
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // ScanRegistry.ReadRegistry();
-            // Helpers.GetAllSpecialFolders();
-            // ScanServices.Start();
-            // ScanFirewall.Temp();
-            // ScanTaskScheduler.Test();
-            // Helpers.Test();
-
             Settings.SetZipLibrary();
 
             Application.Run(new MainForm());

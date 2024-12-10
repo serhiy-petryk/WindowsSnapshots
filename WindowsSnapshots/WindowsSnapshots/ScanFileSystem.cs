@@ -8,17 +8,6 @@ namespace WindowsSnapshots
 {
     public static class ScanFileSystem
     {
-        public static void Start()
-        {
-            var zipFileName = $"E:\\Temp\\Reg\\FileSystem_{Helpers.GetSystemDriveLabel()}_{DateTime.Now:yyyyMMddHHmm}.zip";
-            SaveFileSystemInfoIntoFile(zipFileName, Helpers.FakeShowStatus);
-
-            /*var logFileName1 = "E:\\Temp\\Reg\\FileSystem_SSD_240_202411162300.zip";
-            var logFileName2 = "E:\\Temp\\Reg\\FileSystem_SSD_240_202411162330.zip";
-            // 68 items
-            var differenceFileName = CompareScanFiles(logFileName1, logFileName2);*/
-        }
-
         public static string CompareFileSystemFiles(string oldFile, string newFile, Action<string> showStatusAction)
         {
             if (!File.Exists(oldFile))

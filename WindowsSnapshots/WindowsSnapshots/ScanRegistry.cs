@@ -15,14 +15,6 @@ namespace WindowsSnapshots
         private static int _blankValues = 0;
         private static int _errors = 0;
 
-        public static void Start()
-        {
-            var oldFile = @"E:\Temp\Reg\Registry_SSD_240_202411151520.zip";
-            var newFile = @"E:\Temp\Reg\Registry_SSD_240_202411152215.zip";
-            // 334 items
-            var differenceFileName = CompareRegistryFiles(oldFile, newFile, Helpers.FakeShowStatus);
-        }
-
         public static string CompareRegistryFiles(string oldFile, string newFile, Action<string> showStatusAction)
         {
             if (!File.Exists(oldFile))
