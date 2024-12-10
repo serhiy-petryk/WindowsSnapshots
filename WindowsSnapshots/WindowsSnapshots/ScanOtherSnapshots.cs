@@ -144,7 +144,8 @@ namespace WindowsSnapshots
             {
                 var entry = zip.Entries.FirstOrDefault(a => string.Equals(a.Name, entryName));
                 if (entry == null)
-                    throw new Exception($"Check content of zip file. File '{entryName}' is missing");
+                    throw new Exception($"Can't find '{entryName}' entry in {Path.GetFileName(zipFileName)} zip file");
+
                 return entry.GetLinesOfZipEntry().ToArray();
             }
         }

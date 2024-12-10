@@ -142,7 +142,7 @@ namespace WindowsSnapshots
         #region ============  Registry  =============
         private void btnRegistrySnapshot_Click(object sender, EventArgs e)
         {
-            var fileName = Path.Combine(GetDataFolder(), $"Registry_{Helpers.GetSystemDriveLabel()}_{DateTime.Now:yyyyMMddHHmm}.txt");
+            var fileName = Path.Combine(GetDataFolder(), $"Registry_{Helpers.GetSystemDriveLabel()}_{DateTime.Now:yyyyMMddHHmm}.reg");
             MessageBox.Show(
                 $"To create registry data, please, run 'regedit.exe' program, make export data in '{fileName}' and zip the newly created text file.");
             lblRegistryFileName.Text = fileName;

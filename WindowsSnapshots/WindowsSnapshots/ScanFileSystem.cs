@@ -91,27 +91,30 @@ namespace WindowsSnapshots
             var entryName = Path.GetFileNameWithoutExtension(zipFileName) + ".txt";
             var data = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             using (var zip = ZipFile.Open(zipFileName, ZipArchiveMode.Read))
-                foreach (var entry in zip.Entries.Where(a => string.Equals(a.Name, entryName)))
+            {
+                var entry = zip.Entries.FirstOrDefault(a => string.Equals(a.Name, entryName));
+                if (entry == null)
+                    throw new Exception($"Can't find '{entryName}' entry in {Path.GetFileName(zipFileName)} zip file");
+
+                var checkHeader = false;
+                foreach (var s in entry.GetLinesOfZipEntry())
                 {
-                    var checkHeader = false;
-                    foreach (var s in entry.GetLinesOfZipEntry())
+                    if (!checkHeader)
                     {
-                        if (!checkHeader)
-                        {
-                            if (!string.Equals(s, "Type\tName\tWritten\tCreated\tAccessed\tSize", StringComparison.InvariantCulture))
-                                throw new Exception($"Check header of scan file {Path.GetFileName(zipFileName)}");
-                            checkHeader = true;
-                            continue;
-                        }
-
-                        var i1 = s.IndexOf('\t');
-                        var i2 = s.IndexOf('\t', i1 + 1);
-                        var key = i2 == -1 ? s : s.Substring(0, i2);
-                        data.Add(key, s);
+                        if (!string.Equals(s, "Type\tName\tWritten\tCreated\tAccessed\tSize", StringComparison.InvariantCulture))
+                            throw new Exception($"Check header of scan file {Path.GetFileName(zipFileName)}");
+                        checkHeader = true;
+                        continue;
                     }
-                }
-            return data;
 
+                    var i1 = s.IndexOf('\t');
+                    var i2 = s.IndexOf('\t', i1 + 1);
+                    var key = i2 == -1 ? s : s.Substring(0, i2);
+                    data.Add(key, s);
+                }
+            }
+
+            return data;
         }
 
         public static string SaveFileSystemInfoIntoFile(string dataFolder, Action<string> showStatusAction)
