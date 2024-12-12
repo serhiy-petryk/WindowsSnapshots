@@ -16,6 +16,8 @@ namespace WindowsSnapshots
 
             Settings.SetZipLibrary();
 
+            Tests.GetAsterEntries();
+
             Application.Run(new MainForm());
         }
     }
