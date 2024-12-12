@@ -69,15 +69,13 @@ namespace WindowsSnapshots
             string GetLogValue(string value) => value == null ? "<NULL>" : value.Substring(0, Math.Min(value.Length, 32000));
         }
 
-        private static Dictionary<string, string> ParseZipRegistryFile(string zipFileName)
+        internal static Dictionary<string, string> ParseZipRegistryFile(string zipFileName)
         {
             var data = new Dictionary<string, string>();
             string mainKey = null;
             string key = null;
             var valueStrings = new List<string>();
-            var entryName = Path.GetFileNameWithoutExtension(zipFileName) + ".reg";
             using (var zip = ZipFile.Open(zipFileName, ZipArchiveMode.Read))
-            {
                 foreach (var entry in zip.Entries.Where(a => a.Length > 0))
                 {
                     var checkHeader = false;
@@ -151,7 +149,6 @@ namespace WindowsSnapshots
                         }
                     }
                 }
-            }
 
             if (!string.IsNullOrEmpty(mainKey))
                 SaveValue(mainKey, key, valueStrings, data);
