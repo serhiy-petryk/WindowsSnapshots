@@ -39,7 +39,7 @@ namespace WindowsSnapshots
             var difference = GetDifference(firewallData1, firewallData2);
             printData.Add($"#FIREWALL ({difference.Count} rows)#");
             printData.Add(HelperFirewall.GetHeaderStringOfDifference());
-            foreach(var kvp in difference)
+            foreach(var kvp in difference.OrderBy(a => a.Key))
                 printData.Add(HelperFirewall.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
 
             //=======  SERVICES  ========
@@ -52,7 +52,7 @@ namespace WindowsSnapshots
             printData.Add(null);
             printData.Add($"#SERVICES ({difference.Count} rows)#");
             printData.Add(HelperServices.GetHeaderStringOfDifference());
-            foreach (var kvp in difference)
+            foreach (var kvp in difference.OrderBy(a=>a.Key))
                 printData.Add(HelperServices.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
 
             //========  TASK SCHEDULER  =========
@@ -65,7 +65,7 @@ namespace WindowsSnapshots
             printData.Add(null);
             printData.Add($"#TASK SCHEDULER LIST ({difference.Count} rows)#");
             printData.Add(HelperTaskScheduler.GetHeaderStringOfDifference());
-            foreach (var kvp in difference)
+            foreach (var kvp in difference.OrderBy(a => a.Key))
               printData.Add(HelperTaskScheduler.GetDataStringOfDifference(kvp.Key, kvp.Value.Item1, kvp.Value.Item2));
 
             // =====  Save difference  ======

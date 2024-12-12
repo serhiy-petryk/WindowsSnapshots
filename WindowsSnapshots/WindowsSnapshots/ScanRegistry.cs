@@ -78,74 +78,75 @@ namespace WindowsSnapshots
             var entryName = Path.GetFileNameWithoutExtension(zipFileName) + ".reg";
             using (var zip = ZipFile.Open(zipFileName, ZipArchiveMode.Read))
             {
-                var entry = zip.Entries.FirstOrDefault(a => string.Equals(a.Name, entryName));
-                if (entry == null)
-                    throw new Exception($"Can't find '{entryName}' entry in {Path.GetFileName(zipFileName)} zip file");
-
-                var checkHeader = false;
-                foreach (var s in entry.GetLinesOfZipEntry())
+                foreach (var entry in zip.Entries.Where(a => a.Length > 0))
                 {
-                    if (!checkHeader)
+                    var checkHeader = false;
+                    foreach (var s in entry.GetLinesOfZipEntry())
                     {
-                        if (!s.StartsWith("Windows Registry Editor Version"))
-                            throw new Exception($"Check header of registry file {Path.GetFileName(zipFileName)}");
-                        checkHeader = true;
-                        continue;
-                    }
-
-                    if (string.IsNullOrEmpty(s))
-                    {
-                        if (valueStrings.Count > 0 && valueStrings[0].StartsWith("\"") &&
-                            !valueStrings[valueStrings.Count - 1].EndsWith("\""))
+                        if (!checkHeader)
                         {
-                            valueStrings.Add("\n");
+                            if (!s.StartsWith("Windows Registry Editor Version"))
+                                throw new Exception($"Check header of registry file {Path.GetFileName(zipFileName)}");
+                            checkHeader = true;
                             continue;
                         }
 
-                        if (!string.IsNullOrEmpty(mainKey) && !string.IsNullOrEmpty(key))
-                            SaveValue(mainKey, key, valueStrings, data);
+                        if (s.StartsWith("Windows Registry Editor Version")) continue;
 
-                        mainKey = null;
-                        key = null;
-                    }
-                    else
-                    {
-                        if (mainKey == null)
+                        if (string.IsNullOrEmpty(s))
                         {
-                            if (s.StartsWith("[") && s.EndsWith("]"))
+                            if (valueStrings.Count > 0 && valueStrings[0].StartsWith("\"") &&
+                                !valueStrings[valueStrings.Count - 1].EndsWith("\""))
                             {
-                                mainKey = s.Substring(1, s.Length - 2);
-                                SaveValue("@" + mainKey, null, valueStrings, data);
+                                valueStrings.Add("\n");
+                                continue;
                             }
-                            else
-                                throw new Exception("Check registry parser");
+
+                            if (!string.IsNullOrEmpty(mainKey) && !string.IsNullOrEmpty(key))
+                                SaveValue(mainKey, key, valueStrings, data);
+
+                            mainKey = null;
+                            key = null;
                         }
                         else
                         {
-                            if (s.StartsWith("@="))
+                            if (mainKey == null)
                             {
-                                if (key != null)
-                                    SaveValue(mainKey, key, valueStrings, data);
-
-                                key = "@";
-                                valueStrings.Add(GetValue(s.Substring(2).Trim()));
-                            }
-                            else if (s.StartsWith("\"") &&
-                                     s.IndexOf("\"=", StringComparison.CurrentCultureIgnoreCase) != -1)
-                            {
-                                if (key != null)
-                                    SaveValue(mainKey, key, valueStrings, data);
-
-                                var i1 = s.IndexOf("\"=", StringComparison.CurrentCultureIgnoreCase);
-                                key = s.Substring(0, i1 + 1).Trim();
-                                valueStrings.Add(GetValue(s.Substring(i1 + 2).Trim()));
+                                if (s.StartsWith("[") && s.EndsWith("]"))
+                                {
+                                    mainKey = s.Substring(1, s.Length - 2);
+                                    SaveValue("@" + mainKey, null, valueStrings, data);
+                                }
+                                else
+                                    throw new Exception("Check registry parser");
                             }
                             else
                             {
-                                if (key == null)
-                                    throw new Exception("Check registry parser");
+                                if (s.StartsWith("@="))
+                                {
+                                    if (key != null)
+                                        SaveValue(mainKey, key, valueStrings, data);
 
-                                valueStrings.Add(GetValue(s.TrimStart()));
+                                    key = "@";
+                                    valueStrings.Add(GetValue(s.Substring(2).Trim()));
+                                }
+                                else if (s.StartsWith("\"") &&
+                                         s.IndexOf("\"=", StringComparison.CurrentCultureIgnoreCase) != -1)
+                                {
+                                    if (key != null)
+                                        SaveValue(mainKey, key, valueStrings, data);
+
+                                    var i1 = s.IndexOf("\"=", StringComparison.CurrentCultureIgnoreCase);
+                                    key = s.Substring(0, i1 + 1).Trim();
+                                    valueStrings.Add(GetValue(s.Substring(i1 + 2).Trim()));
+                                }
+                                else
+                                {
+                                    if (key == null)
+                                        throw new Exception("Check registry parser");
+
+                                    valueStrings.Add(GetValue(s.TrimStart()));
+                                }
                             }
                         }
                     }
