@@ -53,7 +53,7 @@ namespace WindowsSnapshots
             var data = new List<string>();
             data.Add($"#\tFiles difference: {Path.GetFileName(oldFile)} and {Path.GetFileName(newFile)}");
             data.Add("Type\tName\tDiff\tWritten1\tWritten2\tCreated1\tCreated2\tAccessed1\tAccessed2\tSize1\tSize2");
-            data.AddRange(difference.OrderBy(a=>a.Key.Split('\t')[1]).Select(GetDiffLine));
+            data.AddRange(difference.OrderBy(a=>a.Key.Split('\t')[1]).Select(GetDiffLine).Where(a => a != null));
             Helpers.SaveStringsToZipFile(differenceFileName, data);
 
             showStatusAction($"Data saved into {Path.GetFileName(differenceFileName)}");
@@ -82,6 +82,7 @@ namespace WindowsSnapshots
                 else if (ss1.Length > 4 && ss2.Length > 4 && !string.Equals(s5, s6)) s0 = "Accessed";
                 else throw new Exception("Check program!");
 
+                if (string.Equals(s0, "Accessed", StringComparison.InvariantCulture)) return null;
                 return ($"{kvp.Key}\t{s0}\t{s1}\t{s2}\t{s3}\t{s4}\t{s5}\t{s6}\t{s7}\t{s8}").Trim();
             }
         }
