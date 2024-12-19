@@ -17,7 +17,7 @@ namespace WindowsSnapshots
 
             Settings.SetZipLibrary();
 
-            var files = Directory.GetFiles(@"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}");
+            /*var files = Directory.GetFiles(@"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}");
             foreach (var file in files)
             {
                 var bytes = File.ReadAllBytes(file);
@@ -32,7 +32,7 @@ namespace WindowsSnapshots
                     var bytes = File.ReadAllBytes(file);
                     var text = File.ReadAllText(file);
                 }
-            }
+            }*/
 
 
             // Tests.GetAsterEntries();
