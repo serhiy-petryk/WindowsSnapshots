@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Helpers
@@ -15,12 +10,40 @@ namespace Helpers
         private const string TestLogFilesFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
         private const string OriginalLogFilesFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
-        /*        private static readonly string[] Files = new[]
+        public static void ChangeDates(bool isTestMode, DateTime oldDate, int dayOffset)
+        {
+            var logFilesFolder = isTestMode ? TestLogFilesFolder : OriginalLogFilesFolder;
+            var files = Directory.GetFiles(logFilesFolder);
+            var logFiles = Directory.GetFiles(Path.Combine(logFilesFolder, "Logs"), $"{oldDate:yyyyMMdd}_*.*");
+            foreach (var logFileName in logFiles)
+            {
+                if (!CheckLogFile(logFileName, oldDate))
                 {
-                    @"\Windows\System32\drivers\mutenx.sys",
-                    @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}"
-                };*/
+                    MessageBox.Show($"Check log file {logFileName}");
+                    return;
+                }
+            }
+        }
 
+        private static bool CheckLogFile(string filename, DateTime oldDate)
+        {
+            var dateKey = oldDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            if (!filename.Contains(dateKey + "_")) return false;
+
+            dateKey = oldDate.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture);
+            var content = File.ReadAllText(filename);
+            if (!content.Contains(dateKey)) return false;
+            return true;
+        }
+
+        private static void ChangeFileDate(string filename, DateTime newDate)
+        {
+            var fileDate = File.GetCreationTimeUtc(filename);
+        }
+
+        // ==============================
+        // ==============================
+        // ==============================
         public static void CheckLogFolder()
         {
             CheckLogFolder(TestLogFilesFolder);
@@ -158,35 +181,5 @@ namespace Helpers
         //==============================
         //==============================
         //==============================
-        public static void ChangeDates(bool isTestMode, DateTime oldDate, int dayOffset)
-        {
-            var logFilesFolder = isTestMode ? TestLogFilesFolder : OriginalLogFilesFolder;
-            var files = Directory.GetFiles(logFilesFolder);
-            var logFiles = Directory.GetFiles(Path.Combine(logFilesFolder, "Logs"), $"{oldDate:yyyyMMdd}_*.*");
-            foreach (var logFileName in logFiles)
-            {
-                if (!CheckLogFile(logFileName, oldDate))
-                {
-                    MessageBox.Show($"Check log file {logFileName}");
-                    return;
-                }
-            }
-        }
-
-        private static bool CheckLogFile(string filename, DateTime oldDate)
-        {
-            var dateKey = oldDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
-            if (!filename.Contains(dateKey+"_")) return false;
-
-            dateKey = oldDate.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture);
-            var content = File.ReadAllText(filename);
-            if (!content.Contains(dateKey)) return false;
-            return true;
-        }
-
-        private static void ChangeFileDate(string filename, DateTime newDate)
-        {
-            var fileDate = File.GetCreationTimeUtc(filename);
-        }
     }
 }
