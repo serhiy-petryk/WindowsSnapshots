@@ -16,6 +16,19 @@ namespace Helpers
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            if (!Others.IsAdministrator())
+            {
+                MessageBox.Show("Run after administrator right");
+                return;
+            }
+
+            // ChangeFileDates.XCopy();
+
+            ChangeFileDates.CheckLogFolder();
+
+            // ChangeFileDates.ChangeDates(true, new DateTime(2024,12,12), 1);
+
             Application.Run(new MainForm());
         }
     }
