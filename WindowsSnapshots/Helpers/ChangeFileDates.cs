@@ -10,11 +10,44 @@ namespace Helpers
         private const string TestLogFilesFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
         private const string OriginalLogFilesFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
-        public static void AddMissingLogFile() // 20241216_021939_00063_wp01s.log
+        public static void RenameOldLogFile() // for 20231215_021335_00040_wp01s.log
+        {
+            // Save folder dates
+            var rootFolder = GetRootFolder(true);
+            var logFolder = Path.Combine(rootFolder, "logs");
+            var rootDates = GetFolderDates(rootFolder);
+            var logDates = GetFolderDates(logFolder);
+
+            var oldFileName = @"20231215_021335_00040_wp01s.log";
+            var newFileName = @"20241215_021335_00040_wp01s.log";
+            var oldFullFileName = Path.Combine(logFolder, oldFileName);
+            var newFullFileName = Path.Combine(logFolder, newFileName);
+            var newFileDate = new DateTime(2024, 12, 15) + File.GetCreationTime(oldFullFileName).TimeOfDay;
+            var oldDateKey = "2023-Dec-15";
+            var newDateKey = "2024-Dec-15";
+
+            // Change content of new file
+            var content = File.ReadAllText(oldFullFileName);
+            content = content.Replace(oldDateKey, newDateKey);
+            File.WriteAllText(oldFullFileName, content);
+            File.Move(oldFullFileName, newFullFileName);
+
+            // Set dates of new file
+            File.SetCreationTimeUtc(newFullFileName, newFileDate);
+            File.SetLastWriteTimeUtc(newFullFileName, newFileDate);
+            if (File.GetLastAccessTimeUtc(newFullFileName) < newFileDate)
+                File.SetLastAccessTimeUtc(newFullFileName, newFileDate);
+
+            // Restore folder dates
+            SetFolderDates(logFolder, logDates);
+            SetFolderDates(rootFolder, rootDates);
+        }
+
+        public static void AddMissingLogFile() // add 20241216_021939_00063_wp01s.log file
         {
             var rootFolder = GetRootFolder(true);
-            var rootDates = GetFolderDates(rootFolder);
             var logFolder = Path.Combine(rootFolder, "logs");
+            var rootDates = GetFolderDates(rootFolder);
             var logDates = GetFolderDates(logFolder);
 
             var sourceFilenames = Directory.GetFiles(logFolder, "20241216_021939_00062_wp01s.log");
@@ -34,6 +67,11 @@ namespace Helpers
             SetFolderDates(rootFolder, rootDates);
         }
 
+        private static DateTime[] GetFolderDates(string folder) => new DateTime[]
+        {
+            Directory.GetCreationTime(folder), Directory.GetLastWriteTime(folder), Directory.GetLastAccessTime(folder)
+        };
+
         private static void SetFolderDates(string folder, DateTime[] dates)
         {
             if (Directory.GetCreationTime(folder) != dates[0])
@@ -52,14 +90,25 @@ namespace Helpers
         {
             var rootFolder = GetRootFolder(isTestMode);
             CheckLogFolder(rootFolder);
+            var newDate = oldDate.AddDays(dayOffset).Date;
 
             var rootFolderDates = GetFolderDates(rootFolder);
-            var newDate = oldDate.AddDays(dayOffset).Date;
-            var oldDateKey = oldDate.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture);
-            var newDateKey = newDate.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture);
+            for (var k = 0; k < rootFolderDates.Length; k++)
+            {
+                if (rootFolderDates[k] < newDate)
+                    rootFolderDates[k] = newDate + rootFolderDates[k].TimeOfDay;
+            }
 
             var logFolder = Path.Combine(rootFolder, "Logs");
             var logFolderDates = GetFolderDates(logFolder);
+            for (var k = 0; k < logFolderDates.Length; k++)
+            {
+                if (logFolderDates[k] < newDate)
+                    logFolderDates[k] = newDate + logFolderDates[k].TimeOfDay;
+            }
+
+            var oldDateKey = oldDate.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture);
+            var newDateKey = newDate.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture);
             var logFiles = Directory.GetFiles(logFolder, $"{oldDate:yyyyMMdd}_*.*");
             foreach (var logFileName in logFiles)
             {
@@ -80,13 +129,13 @@ namespace Helpers
                 if (File.GetLastAccessTimeUtc(newFileName) < fileDate)
                     File.SetLastAccessTimeUtc(newFileName, fileDate);
             }
-            ChangeFolderDate(logFolder, logFolderDates, newDate);
+            SetFolderDates(logFolder, logFolderDates);
 
             var files = Directory.GetFiles(rootFolder);
             foreach(var file in files)
                 ChangeFileDate(file, newDate);
 
-            ChangeFolderDate(rootFolder, rootFolderDates, newDate);
+            SetFolderDates(rootFolder, rootFolderDates);
 
             CheckLogFolder(rootFolder);
         }
@@ -105,29 +154,6 @@ namespace Helpers
             if (fileDate < newDate)
                 File.SetLastAccessTime(filename, newDate + fileDate.TimeOfDay);
         }
-
-        private static void ChangeFolderDate(string folder, DateTime[] oldDates, DateTime newDate)
-        {
-            var date = (oldDates[0] < newDate) ? newDate + oldDates[0].TimeOfDay : oldDates[0];
-            var folderDate = Directory.GetCreationTime(folder);
-            if (folderDate != date)
-                Directory.SetCreationTime(folder, date);
-
-            date = (oldDates[1] < newDate) ? newDate + oldDates[1].TimeOfDay : oldDates[1];
-            folderDate = Directory.GetLastWriteTime(folder);
-            if (folderDate != date)
-                Directory.SetLastWriteTime(folder, date);
-
-            date = (oldDates[2] < newDate) ? newDate + oldDates[2].TimeOfDay : oldDates[2];
-            folderDate = Directory.GetLastAccessTime(folder);
-            if (folderDate != date)
-                Directory.SetLastAccessTime(folder, date);
-        }
-
-        private static DateTime[] GetFolderDates(string folder) => new DateTime[]
-        {
-            Directory.GetCreationTime(folder), Directory.GetLastWriteTime(folder), Directory.GetLastAccessTime(folder)
-        };
 
         // ==============================
         // ==============================

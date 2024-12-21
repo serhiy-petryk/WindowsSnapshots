@@ -20,11 +20,16 @@ namespace Helpers
                 return;
             }
 
+
+            ChangeFileDates.RenameOldLogFile();
+
+            // ChangeFileDates.AddMissingLogFile();
+
             // ChangeFileDates.XCopy();
 
-            ChangeFileDates.CheckLogFolder();
+            // ChangeFileDates.CheckLogFolder();
 
-            // ChangeFileDates.ChangeDates(true, new DateTime(2024,12,12), 1);
+            ChangeFileDates.ChangeDates(true, new DateTime(2024,12,12), 1);
 
             Application.Run(new MainForm());
         }
