@@ -33,10 +33,10 @@ namespace Helpers
             File.Move(oldFullFileName, newFullFileName);
 
             // Set dates of new file
-            File.SetCreationTimeUtc(newFullFileName, newFileDate);
-            File.SetLastWriteTimeUtc(newFullFileName, newFileDate);
-            if (File.GetLastAccessTimeUtc(newFullFileName) < newFileDate)
-                File.SetLastAccessTimeUtc(newFullFileName, newFileDate);
+            File.SetCreationTime(newFullFileName, newFileDate);
+            File.SetLastWriteTime(newFullFileName, newFileDate);
+            if (File.GetLastAccessTime(newFullFileName) < newFileDate)
+                File.SetLastAccessTime(newFullFileName, newFileDate);
 
             // Restore folder dates
             SetFolderDates(logFolder, logDates);
