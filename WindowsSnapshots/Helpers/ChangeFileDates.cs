@@ -10,10 +10,11 @@ namespace Helpers
         private const string TestLogFilesFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
         private const string OriginalLogFilesFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
+        #region ==========  RenameOldLogFile  ===========
         public static void RenameOldLogFile() // for 20231215_021335_00040_wp01s.log
         {
             // Save folder dates
-            var rootFolder = GetRootFolder(true);
+            var rootFolder = GetLogRootFolder(true);
             var logFolder = Path.Combine(rootFolder, "logs");
             var rootDates = GetFolderDates(rootFolder);
             var logDates = GetFolderDates(logFolder);
@@ -42,10 +43,12 @@ namespace Helpers
             SetFolderDates(logFolder, logDates);
             SetFolderDates(rootFolder, rootDates);
         }
+        #endregion
 
+        #region =========  AddMissingLogFile  ===========
         public static void AddMissingLogFile() // add 20241216_021939_00063_wp01s.log file
         {
-            var rootFolder = GetRootFolder(true);
+            var rootFolder = GetLogRootFolder(true);
             var logFolder = Path.Combine(rootFolder, "logs");
             var rootDates = GetFolderDates(rootFolder);
             var logDates = GetFolderDates(logFolder);
@@ -66,29 +69,12 @@ namespace Helpers
             SetFolderDates(logFolder, logDates);
             SetFolderDates(rootFolder, rootDates);
         }
+        #endregion
 
-        private static DateTime[] GetFolderDates(string folder) => new DateTime[]
+        #region =========  ChangeDatesOfLogFolder  ===========
+        public static void ChangeDatesOfLogFolder(bool isTestMode, DateTime oldDate, int dayOffset)
         {
-            Directory.GetCreationTime(folder), Directory.GetLastWriteTime(folder), Directory.GetLastAccessTime(folder)
-        };
-
-        private static void SetFolderDates(string folder, DateTime[] dates)
-        {
-            if (Directory.GetCreationTime(folder) != dates[0])
-                Directory.SetCreationTime(folder, dates[0]);
-            if (Directory.GetLastWriteTime(folder) != dates[1])
-                Directory.SetLastWriteTime(folder, dates[1]);
-            if (Directory.GetLastAccessTime(folder) != dates[2])
-                Directory.SetLastAccessTime(folder, dates[2]);
-        }
-
-        // =========================
-        // =========================
-        // =========================
-
-        public static void ChangeDates(bool isTestMode, DateTime oldDate, int dayOffset)
-        {
-            var rootFolder = GetRootFolder(isTestMode);
+            var rootFolder = GetLogRootFolder(isTestMode);
             CheckLogFolder(rootFolder);
             var newDate = oldDate.AddDays(dayOffset).Date;
 
@@ -154,10 +140,9 @@ namespace Helpers
             if (fileDate < newDate)
                 File.SetLastAccessTime(filename, newDate + fileDate.TimeOfDay);
         }
+        #endregion
 
-        // ==============================
-        // ==============================
-        // ==============================
+        #region ========  CheckLogFolder  =========
         public static void CheckLogFolder()
         {
             CheckLogFolder(TestLogFilesFolder);
@@ -212,18 +197,14 @@ namespace Helpers
 
             return true;
         }
+        #endregion
 
-
-        //==============================
-        //==============================
-        //==============================
-
+        #region =============  XCopy  ==============
         public static void XCopy()
         {
             var oldFolder = OriginalLogFilesFolder;
             var newFolder = TestLogFilesFolder;
             // var newFolder = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241220";
-
 
             // Delete old data from newFolder
             if (Directory.Exists(newFolder))
@@ -293,11 +274,25 @@ namespace Helpers
             
             Directory.Delete(folder);
         }
+        #endregion
 
-        //==============================
-        //==============================
-        //==============================
+        private static string GetLogRootFolder(bool isTestMode) => isTestMode? TestLogFilesFolder : OriginalLogFilesFolder;
 
-        private static string GetRootFolder(bool isTestMode) => isTestMode? TestLogFilesFolder : OriginalLogFilesFolder;
+        private static DateTime[] GetFolderDates(string folder) => new DateTime[]
+        {
+            Directory.GetCreationTime(folder), Directory.GetLastWriteTime(folder), Directory.GetLastAccessTime(folder)
+        };
+
+        private static void SetFolderDates(string folder, DateTime[] dates)
+        {
+            if (Directory.GetCreationTime(folder) != dates[0])
+                Directory.SetCreationTime(folder, dates[0]);
+            if (Directory.GetLastWriteTime(folder) != dates[1])
+                Directory.SetLastWriteTime(folder, dates[1]);
+            if (Directory.GetLastAccessTime(folder) != dates[2])
+                Directory.SetLastAccessTime(folder, dates[2]);
+        }
+
+
     }
 }
