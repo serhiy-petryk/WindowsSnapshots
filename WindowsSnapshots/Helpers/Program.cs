@@ -27,6 +27,8 @@ namespace Helpers
             // ChangeFileDates.RenameOldLogFile();
             // ChangeFileDates.AddMissingLogFile();
 
+            // ChangeFileDates.CheckDatesOfOthers();
+
             // ChangeFileDates.XCopy();
 
             // ChangeFileDates.CheckLogFolder();
