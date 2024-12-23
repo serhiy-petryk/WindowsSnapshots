@@ -108,7 +108,7 @@ namespace Helpers
             var minDate = fileOrFolderDates.Min();
             var maxDate = fileOrFolderDates.Max();
             if (minDate < minMaxDates[0]) minMaxDates[0] = minDate;
-            if (maxDate < minMaxDates[1]) minMaxDates[1] = maxDate;
+            if (maxDate > minMaxDates[1]) minMaxDates[1] = maxDate;
 
             if (maxDate > UpperDateTime)
             {
