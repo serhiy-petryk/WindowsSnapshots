@@ -9,16 +9,17 @@ namespace Helpers
 {
     public static class ChangeFileDates
     {
-        private const string TestLogFilesFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
-        private const string OriginalLogFilesFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
+        private const string LogRootFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
+        // private const string LogRootFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
+
         private static readonly string[] OtherFolders = new[]
         {
             @"J:\Program Files\ASTER\", @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
             @"J:\ProgramData\IBIK Software Ltd\Uninstall",
             @"J:\ProgramData\Microsoft\Windows\Start Menu\Programs\ASTER Control", @"J:\ProgramData\MultiSeat Utils"
         };
-
         private static readonly string[] OtherFiles = new[] { @"J:\Windows\System32\drivers\mutenx.sys" };
+
         private static readonly DateTime LowerDateTime = new DateTime(2024, 1, 1);
         private static readonly DateTime UpperDateTime = new DateTime(2024, 12, 19, 2, 0, 0);
 
@@ -76,6 +77,23 @@ namespace Helpers
             fileDate = File.GetLastAccessTime(filename);
             if (fileDate.Date == oldDate)
                 File.SetLastAccessTime(filename, oldDate.AddDays(offset) + fileDate.TimeOfDay);
+        }
+
+        private static void ChangeMinDateOfOthers_File(FileSystemInfo fsInfo, DateTime[] dateRange)
+        {
+            var minDate = dateRange[0];
+            var maxDate = dateRange[1];
+
+            if (fsInfo.CreationTime >= minDate && fsInfo.CreationTime < maxDate)
+                fsInfo.CreationTime =GetNewFileDate(fsInfo.CreationTime);
+
+            if (fsInfo.LastWriteTime >= minDate && fsInfo.LastWriteTime < maxDate)
+                fsInfo.LastWriteTime= GetNewFileDate(fsInfo.LastWriteTime);
+
+            if (fsInfo.LastAccessTime >= minDate && fsInfo.LastAccessTime < maxDate)
+                fsInfo.LastAccessTime = GetNewFileDate(fsInfo.LastAccessTime);
+
+            DateTime GetNewFileDate(DateTime fileDate) => fileDate.AddDays(Convert.ToInt32(Math.Floor((maxDate - fileDate).TotalDays)) + 1);
         }
 
         #endregion
@@ -138,9 +156,8 @@ namespace Helpers
         public static void RenameOldLogFile() // for 20231215_021335_00040_wp01s.log
         {
             // Save folder dates
-            var rootFolder = GetLogRootFolder(true);
-            var logFolder = Path.Combine(rootFolder, "logs");
-            var rootDates = GetFolderDates(rootFolder);
+            var logFolder = Path.Combine(LogRootFolder, "logs");
+            var rootDates = GetFolderDates(LogRootFolder);
             var logDates = GetFolderDates(logFolder);
 
             var oldFileName = @"20231215_021335_00040_wp01s.log";
@@ -165,16 +182,15 @@ namespace Helpers
 
             // Restore folder dates
             SetFolderDates(logFolder, logDates);
-            SetFolderDates(rootFolder, rootDates);
+            SetFolderDates(LogRootFolder, rootDates);
         }
         #endregion
 
         #region =========  AddMissingLogFile  ===========
         public static void AddMissingLogFile() // add 20241216_021939_00063_wp01s.log file
         {
-            var rootFolder = GetLogRootFolder(true);
-            var logFolder = Path.Combine(rootFolder, "logs");
-            var rootDates = GetFolderDates(rootFolder);
+            var logFolder = Path.Combine(LogRootFolder, "logs");
+            var rootDates = GetFolderDates(LogRootFolder);
             var logDates = GetFolderDates(logFolder);
 
             var sourceFilenames = Directory.GetFiles(logFolder, "20241216_021939_00062_wp01s.log");
@@ -191,25 +207,24 @@ namespace Helpers
             File.SetLastAccessTime(targetFileName, dateTime.AddHours(2));
 
             SetFolderDates(logFolder, logDates);
-            SetFolderDates(rootFolder, rootDates);
+            SetFolderDates(LogRootFolder, rootDates);
         }
         #endregion
 
         #region =========  ChangeDatesOfLogFolder  ===========
-        public static void ChangeDatesOfLogFolder(bool isTestMode, DateTime oldDate, int dayOffset)
+        public static void ChangeDatesOfLogFolder(DateTime oldDate, int dayOffset)
         {
-            var rootFolder = GetLogRootFolder(isTestMode);
-            CheckLogFolder(rootFolder);
+            CheckLogFolder(LogRootFolder);
             var newDate = oldDate.AddDays(dayOffset).Date;
 
-            var rootFolderDates = GetFolderDates(rootFolder);
+            var rootFolderDates = GetFolderDates(LogRootFolder);
             for (var k = 0; k < rootFolderDates.Length; k++)
             {
                 if (rootFolderDates[k] < newDate)
                     rootFolderDates[k] = newDate + rootFolderDates[k].TimeOfDay;
             }
 
-            var logFolder = Path.Combine(rootFolder, "Logs");
+            var logFolder = Path.Combine(LogRootFolder, "Logs");
             var logFolderDates = GetFolderDates(logFolder);
             for (var k = 0; k < logFolderDates.Length; k++)
             {
@@ -241,13 +256,13 @@ namespace Helpers
             }
             SetFolderDates(logFolder, logFolderDates);
 
-            var files = Directory.GetFiles(rootFolder);
+            var files = Directory.GetFiles(LogRootFolder);
             foreach(var file in files)
                 ChangeFileDate(file, newDate);
 
-            SetFolderDates(rootFolder, rootFolderDates);
+            SetFolderDates(LogRootFolder, rootFolderDates);
 
-            CheckLogFolder(rootFolder);
+            CheckLogFolder(LogRootFolder);
         }
 
         private static void ChangeFileDate(string filename, DateTime newDate)
@@ -269,7 +284,7 @@ namespace Helpers
         #region ========  CheckLogFolder  =========
         public static void CheckLogFolder()
         {
-            CheckLogFolder(TestLogFilesFolder);
+            CheckLogFolder(LogRootFolder);
         }
 
         private static void CheckLogFolder(string logFilesFolder)
@@ -326,8 +341,8 @@ namespace Helpers
         #region =============  XCopy  ==============
         public static void XCopy()
         {
-            var oldFolder = OriginalLogFilesFolder;
-            var newFolder = TestLogFilesFolder;
+            var oldFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
+            var newFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
             // var newFolder = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241219.Original";
 
             // Delete old data from newFolder
@@ -397,8 +412,6 @@ namespace Helpers
         }
         #endregion
 
-        private static string GetLogRootFolder(bool isTestMode) => isTestMode ? TestLogFilesFolder : OriginalLogFilesFolder;
-
         private static DateTime[] GetFolderDates(string folder) => new DateTime[]
         {
             Directory.GetCreationTime(folder), Directory.GetLastWriteTime(folder), Directory.GetLastAccessTime(folder)
@@ -418,7 +431,5 @@ namespace Helpers
             if (Directory.GetLastAccessTime(folder) != dates[2])
                 Directory.SetLastAccessTime(folder, dates[2]);
         }
-
-
     }
 }
