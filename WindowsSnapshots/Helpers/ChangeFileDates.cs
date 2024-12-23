@@ -16,7 +16,7 @@ namespace Helpers
 
         private static readonly string[] OtherFoldersOriginal = new[]
         {
-            @"J:\Program Files\ASTER\", @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
+            @"J:\Program Files\ASTER", @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
             @"J:\ProgramData\IBIK Software Ltd\Uninstall",
             @"J:\ProgramData\Microsoft\Windows\Start Menu\Programs\ASTER Control", @"J:\ProgramData\MultiSeat Utils"
         };
@@ -77,7 +77,7 @@ namespace Helpers
                     throw new Exception($"No file or folder in {folder}");
             }
 
-            foreach (var file in OtherFiles)
+            foreach (var file in OtherFilesOriginal)
             {
                 var fileDates = GetFileDates(file);
                 CheckLowerDate(minMaxDates, fileDates, badFiles, file);
@@ -304,77 +304,134 @@ namespace Helpers
         }
         #endregion
 
+        #region =============  XCopy others ==============
+        public static void XCopyOthers()
+        {
+            var newFolder = new DirectoryInfo(OtherFolderTest);
+
+            // Delete old data from newFolder
+            if (newFolder.Exists)
+                RecursiveFolderDelete(newFolder);
+            
+            newFolder.Create();
+            newFolder.Refresh();
+
+            // Copy files
+            foreach (var oldFileName in OtherFilesOriginal)
+            {
+                var oldFile = new FileInfo(oldFileName);
+                var newFile = new FileInfo(Path.Combine(newFolder.FullName, oldFile.Name));
+                oldFile.CopyTo(newFile.FullName);
+                CopyAttributes(oldFile, newFile);
+            }
+
+            foreach (var oldFolder in OtherFoldersOriginal)
+                XCopyOthers(new DirectoryInfo(oldFolder), new DirectoryInfo(Path.Combine(newFolder.FullName, Path.GetFileName(oldFolder))));
+        }
+
+        private static void XCopyOthers(DirectoryInfo oldFolder, DirectoryInfo newFolder)
+        {
+            if (!newFolder.Exists)
+            {
+                newFolder.Create();
+                newFolder.Refresh();
+            }
+
+            var oldFolders = oldFolder.GetDirectories();
+            foreach (var folder in oldFolders)
+            {
+                var newFolder2 = new DirectoryInfo(Path.Combine(newFolder.FullName, folder.Name));
+                XCopyOthers(folder, newFolder2);
+            }
+
+            var files = oldFolder.GetFiles();
+            foreach (var oldFile in files)
+            {
+                var newFileName = Path.Combine(newFolder.FullName, oldFile.Name);
+                oldFile.CopyTo(newFileName);
+                CopyAttributes(oldFile, new FileInfo(newFileName));
+            }
+
+            CopyAttributes(oldFolder, newFolder);
+        }
+        #endregion
+
         #region =============  XCopy  ==============
         public static void XCopy()
         {
-            var oldFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
-            var newFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
+            var oldFolderName = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
+            var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
             // var newFolder = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241219.Original";
 
+            var oldFolder = new DirectoryInfo(oldFolderName);
+            var newFolder = new DirectoryInfo(newFolderName);
+
             // Delete old data from newFolder
-            if (Directory.Exists(newFolder))
+            if (newFolder.Exists)
                 RecursiveFolderDelete(newFolder);
 
-            XCopy(oldFolder,newFolder);
+            XCopy(oldFolder, newFolder);
         }
 
-        private static void XCopy(string oldFolder, string newFolder)
+        private static void XCopy(DirectoryInfo oldFolder, DirectoryInfo newFolder)
         {
-            if (!Directory.Exists(newFolder))
-                Directory.CreateDirectory(newFolder);
+            if (!newFolder.Exists)
+            {
+                newFolder.Create();
+                newFolder.Refresh();
+            }
 
-            var oldFolders = Directory.GetDirectories(oldFolder);
+            var oldFolders = oldFolder.GetDirectories();
             foreach (var folder in oldFolders)
             {
-                var newFolder2 = Path.Combine(newFolder, Path.GetFileName(folder));
+                var newFolder2 = new DirectoryInfo(Path.Combine(newFolder.FullName, folder.Name));
                 XCopy(folder, newFolder2);
             }
 
-            var files = Directory.GetFiles(oldFolder);
+            var files = oldFolder.GetFiles();
             foreach (var oldFile in files)
             {
-                var newFileName = Path.Combine(newFolder, Path.GetFileName(oldFile));
-                File.Copy(oldFile, newFileName);
-                CopyFileAttributes(oldFile, newFileName);
+                var newFileName = Path.Combine(newFolder.FullName, oldFile.Name);
+                oldFile.CopyTo(newFileName);
+                CopyAttributes(oldFile, new FileInfo(newFileName));
             }
 
-            CopyFileAttributes(oldFolder, newFolder);
+            CopyAttributes(oldFolder, newFolder);
         }
 
-        private static void CopyFileAttributes(string oldFilename, string newFilename)
+        private static void CopyAttributes(FileSystemInfo fsOld, FileSystemInfo fsNew)
         {
-            if (File.Exists(oldFilename))
-            {
-                File.SetCreationTimeUtc(newFilename, File.GetCreationTimeUtc(oldFilename));
-                File.SetLastWriteTimeUtc(newFilename, File.GetLastWriteTimeUtc(oldFilename));
-                File.SetLastAccessTimeUtc(newFilename, File.GetLastAccessTimeUtc(oldFilename));
-            }
-            else if (Directory.Exists(oldFilename))
-            {
-                Directory.SetCreationTimeUtc(newFilename, Directory.GetCreationTimeUtc(oldFilename));
-                Directory.SetLastWriteTimeUtc(newFilename, Directory.GetLastWriteTimeUtc(oldFilename));
-                Directory.SetLastAccessTimeUtc(newFilename, Directory.GetLastAccessTimeUtc(oldFilename));
-            }
-            else
-                throw new Exception($"Can't find file {oldFilename}");
+            if (!fsOld.Exists)
+                throw new Exception($"Can't find file/folder {fsOld.FullName}");
+            if (!fsNew.Exists)
+                throw new Exception($"Can't find file/folder {fsNew.FullName}");
+
+            var readOnly = fsNew is FileInfo fi && fi.IsReadOnly;
+            if (readOnly) ((FileInfo)fsNew).IsReadOnly = false;
+
+            fsNew.CreationTime = fsOld.CreationTime;
+            fsNew.LastWriteTime = fsOld.LastWriteTime;
+            fsNew.LastAccessTime = fsOld.LastAccessTime;
+
+            if (readOnly) ((FileInfo)fsNew).IsReadOnly = true;
         }
 
-        private static void RecursiveFolderDelete(string folder)
+        private static void RecursiveFolderDelete(DirectoryInfo folder)
         {
-            foreach (var dir in Directory.GetDirectories(folder))
+            foreach (var dir in folder.GetDirectories())
             {
                 RecursiveFolderDelete(dir);
             }
-            var files = Directory.GetFiles(folder);
+            var files = folder.GetFiles();
             foreach (var file in files)
             {
-                var fi = new FileInfo(file);
-                if (fi.IsReadOnly)
-                    fi.IsReadOnly = false;
-                File.Delete(file);
+                if (file.IsReadOnly)
+                    file.IsReadOnly = false;
+                file.Delete();
             }
-            
-            Directory.Delete(folder);
+
+            folder.Delete();
+            folder.Refresh();
         }
         #endregion
 
