@@ -12,13 +12,15 @@ namespace Helpers
         private const string LogRootFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
         // private const string LogRootFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
-        private static readonly string[] OtherFolders = new[]
+        private const string OtherFolderTest = @"E:\Temp\WindowsSnapshots\Data\Tests.Others";
+
+        private static readonly string[] OtherFoldersOriginal = new[]
         {
             @"J:\Program Files\ASTER\", @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
             @"J:\ProgramData\IBIK Software Ltd\Uninstall",
             @"J:\ProgramData\Microsoft\Windows\Start Menu\Programs\ASTER Control", @"J:\ProgramData\MultiSeat Utils"
         };
-        private static readonly string[] OtherFiles = new[] { @"J:\Windows\System32\drivers\mutenx.sys" };
+        private static readonly string[] OtherFilesOriginal = new[] { @"J:\Windows\System32\drivers\mutenx.sys" };
 
         private static readonly DateTime LowerDateTime = new DateTime(2024, 1, 1);
         private static readonly DateTime UpperDateTime = new DateTime(2024, 12, 19, 2, 0, 0);
@@ -26,76 +28,40 @@ namespace Helpers
         #region ========  Change minimum dates of other files/folders  ========
         public static void ChangeMinDateOfOthers()
         {
-            var changingDate = new DateTime(2024, 12, 12);
-            ChangeMinDateOfOthers(changingDate, 1);
+            var minDate = new DateTime(2024, 12, 1);
+            var maxDate = new DateTime(2024, 12, 13);
+            ChangeMinDateOfOthers(new []{minDate, maxDate});
         }
 
-        private static void ChangeMinDateOfOthers(DateTime oldDate, int offset)
+        private static void ChangeMinDateOfOthers(DateTime[] dateRange)
         {
-            foreach (var file in OtherFiles)
-                ChangeMinDateOfOthers_File(file, oldDate, offset);
+            var files = Directory.GetFiles(OtherFolderTest);
+            var folders = Directory.GetDirectories(OtherFolderTest);
 
-            foreach (var folder in OtherFolders)
-                ChangeMinDateOfOthers_FolderRecursive(folder, oldDate, offset);
+            /*var files = OtherFilesOriginal;
+            var folders = OtherFoldersOriginal;*/
+
+            foreach (var file in files)
+                ChangeMinDate(new FileInfo(file), dateRange);
+
+            foreach (var folder in folders)
+                ChangeMinDateOfOthers_FolderRecursive(folder, dateRange);
         }
 
-        private static void ChangeMinDateOfOthers_FolderRecursive(string folder, DateTime oldDate, int offset)
+        private static void ChangeMinDateOfOthers_FolderRecursive(string folder, DateTime[] dateRange)
         {
             // Change dates in subfolders
             foreach (var dir in Directory.GetDirectories(folder))
-                ChangeMinDateOfOthers_FolderRecursive(dir, oldDate, offset);
+                ChangeMinDateOfOthers_FolderRecursive(dir, dateRange);
 
             // Change dates in files
             var files = Directory.GetFiles(folder);
             foreach (var file in files)
-                ChangeMinDateOfOthers_File(file, oldDate, offset);
+                ChangeMinDate(new FileInfo(file), dateRange);
 
             // Change dates in this folder
-            var folderDate = File.GetCreationTime(folder);
-            if (folderDate.Date == oldDate)
-                File.SetCreationTime(folder, oldDate.AddDays(offset) + folderDate.TimeOfDay);
-
-            folderDate = File.GetLastWriteTime(folder);
-            if (folderDate.Date == oldDate)
-                File.SetLastWriteTime(folder, oldDate.AddDays(offset) + folderDate.TimeOfDay);
-
-            folderDate = File.GetLastAccessTime(folder);
-            if (folderDate.Date == oldDate)
-                File.SetLastAccessTime(folder, oldDate.AddDays(offset) + folderDate.TimeOfDay);
+            ChangeMinDate(new DirectoryInfo(folder), dateRange);
         }
-
-        private static void ChangeMinDateOfOthers_File(string filename, DateTime oldDate, int offset)
-        {
-            var fileDate = File.GetCreationTime(filename);
-            if (fileDate.Date == oldDate)
-                File.SetCreationTime(filename, oldDate.AddDays(offset) + fileDate.TimeOfDay);
-
-            fileDate = File.GetLastWriteTime(filename);
-            if (fileDate.Date == oldDate)
-                File.SetLastWriteTime(filename, oldDate.AddDays(offset) + fileDate.TimeOfDay);
-
-            fileDate = File.GetLastAccessTime(filename);
-            if (fileDate.Date == oldDate)
-                File.SetLastAccessTime(filename, oldDate.AddDays(offset) + fileDate.TimeOfDay);
-        }
-
-        private static void ChangeMinDateOfOthers_File(FileSystemInfo fsInfo, DateTime[] dateRange)
-        {
-            var minDate = dateRange[0];
-            var maxDate = dateRange[1];
-
-            if (fsInfo.CreationTime >= minDate && fsInfo.CreationTime < maxDate)
-                fsInfo.CreationTime =GetNewFileDate(fsInfo.CreationTime);
-
-            if (fsInfo.LastWriteTime >= minDate && fsInfo.LastWriteTime < maxDate)
-                fsInfo.LastWriteTime= GetNewFileDate(fsInfo.LastWriteTime);
-
-            if (fsInfo.LastAccessTime >= minDate && fsInfo.LastAccessTime < maxDate)
-                fsInfo.LastAccessTime = GetNewFileDate(fsInfo.LastAccessTime);
-
-            DateTime GetNewFileDate(DateTime fileDate) => fileDate.AddDays(Convert.ToInt32(Math.Floor((maxDate - fileDate).TotalDays)) + 1);
-        }
-
         #endregion
 
         #region ========  Check dates of other files/folders  ========
@@ -103,7 +69,7 @@ namespace Helpers
         {
             var minMaxDates = new[] {DateTime.MaxValue, DateTime.MinValue};
             var badFiles = new List<string>();
-            foreach (var folder in OtherFolders)
+            foreach (var folder in OtherFoldersOriginal)
             {
                 var fileAndFolderCount = new[] { 0, 0 };
                 RecursiveFolderCheckDates(folder, minMaxDates, fileAndFolderCount, badFiles);
@@ -430,6 +396,23 @@ namespace Helpers
                 Directory.SetLastWriteTime(folder, dates[1]);
             if (Directory.GetLastAccessTime(folder) != dates[2])
                 Directory.SetLastAccessTime(folder, dates[2]);
+        }
+
+        private static void ChangeMinDate(FileSystemInfo fsInfo, DateTime[] dateRange)
+        {
+            var minDate = dateRange[0];
+            var maxDate = dateRange[1];
+
+            if (fsInfo.CreationTime >= minDate && fsInfo.CreationTime < maxDate)
+                fsInfo.CreationTime = GetNewFileDate(fsInfo.CreationTime);
+
+            if (fsInfo.LastWriteTime >= minDate && fsInfo.LastWriteTime < maxDate)
+                fsInfo.LastWriteTime = GetNewFileDate(fsInfo.LastWriteTime);
+
+            if (fsInfo.LastAccessTime >= minDate && fsInfo.LastAccessTime < maxDate)
+                fsInfo.LastAccessTime = GetNewFileDate(fsInfo.LastAccessTime);
+
+            DateTime GetNewFileDate(DateTime fileDate) => fileDate.AddDays(Convert.ToInt32(Math.Floor((maxDate - fileDate).TotalDays)) + 1);
         }
     }
 }
