@@ -20,18 +20,17 @@ namespace Helpers
                 return;
             }
 
+
             // ChangeFileDates.XCopy();
+            // ChangeFileDates.XCopyOthers();
 
             // ChangeFileDates.CheckLogFolder();
+            ChangeFileDates.CheckDatesOfOthers();
 
             // ChangeFileDates.RenameOldLogFile();
             // ChangeFileDates.AddMissingLogFile();
 
-            // ChangeFileDates.CheckDatesOfOthers();
 
-            // ChangeFileDates.XCopy();
-
-            // ChangeFileDates.CheckLogFolder();
 
             // ChangeFileDates.ChangeDates(true, new DateTime(2024,12,12), 1);
 
