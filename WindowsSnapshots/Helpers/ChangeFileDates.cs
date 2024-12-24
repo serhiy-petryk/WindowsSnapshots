@@ -25,6 +25,63 @@ namespace Helpers
         private static readonly DateTime LowerDateTime = new DateTime(2024, 1, 1);
         private static readonly DateTime UpperDateTime = new DateTime(2024, 12, 19, 2, 0, 0);
 
+        #region ========  Change maximum dates of other files/folders  ========
+        public static void ChangeMaxDateOfOthers()
+        {
+            var maxDate = UpperDateTime;
+            ChangeMaxDateOfOthers(maxDate );
+        }
+
+        private static void ChangeMaxDateOfOthers(DateTime maxDate)
+        {
+            var otherFolder = new DirectoryInfo(OtherFolderTest);
+
+            var files = otherFolder.GetFiles();
+            var folders = otherFolder.GetDirectories();
+
+            foreach (var file in files)
+                ChangeMaxDate(file, maxDate);
+
+            foreach (var folder in folders)
+                ChangeMaxDateOfOthers_FolderRecursive(folder, maxDate);
+        }
+
+        private static void ChangeMaxDateOfOthers_FolderRecursive(DirectoryInfo folder, DateTime maxDate)
+        {
+            // Change dates of subfolders
+            foreach (var dir in folder.GetDirectories())
+                ChangeMaxDateOfOthers_FolderRecursive(dir, maxDate);
+
+            // Change dates of files
+            var files = folder.GetFiles();
+            foreach (var file in files)
+                ChangeMaxDate(file, maxDate);
+
+            // Change dates of this folder
+            ChangeMaxDate(folder, maxDate);
+        }
+
+
+        private static void ChangeMaxDate(FileSystemInfo fsInfo, DateTime maxDate)
+        {
+            var readOnly = fsInfo is FileInfo fi && fi.IsReadOnly;
+            if (readOnly) ((FileInfo)fsInfo).IsReadOnly = false;
+
+            if (fsInfo.CreationTime > maxDate)
+                fsInfo.CreationTime = GetNewFileDate(fsInfo.CreationTime);
+
+            if (fsInfo.LastWriteTime > maxDate)
+                fsInfo.LastWriteTime = GetNewFileDate(fsInfo.LastWriteTime);
+
+            if (fsInfo.LastAccessTime > maxDate)
+                fsInfo.LastAccessTime = GetNewFileDate(fsInfo.LastAccessTime);
+
+            DateTime GetNewFileDate(DateTime fileDate) => fileDate.AddDays(-Convert.ToInt32(Math.Floor((fileDate - maxDate).TotalDays)) - 1);
+
+            if (readOnly) ((FileInfo)fsInfo).IsReadOnly = true;
+        }
+        #endregion
+
         #region ========  Change minimum dates of other files/folders  ========
         public static void ChangeMinDateOfOthers()
         {
