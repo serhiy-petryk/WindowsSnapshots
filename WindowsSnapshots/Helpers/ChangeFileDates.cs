@@ -9,18 +9,22 @@ namespace Helpers
 {
     public static class ChangeFileDates
     {
-        private const string LogRootFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
-        // private const string LogRootFolder = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
+        private static readonly string Drive =
+            Directory.Exists(@"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}")
+                ? "J:"
+                : "C:";
+        // private const string LogRootFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
+        private static readonly string LogRootFolder = Drive+  @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
         private const string OtherFolderTest = @"E:\Temp\WindowsSnapshots\Data\Tests.Others";
 
         private static readonly string[] OtherFoldersOriginal = new[]
         {
-            @"J:\Program Files\ASTER", @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
-            @"J:\ProgramData\IBIK Software Ltd\Uninstall",
-            @"J:\ProgramData\Microsoft\Windows\Start Menu\Programs\ASTER Control", @"J:\ProgramData\MultiSeat Utils"
+            Drive + @"\Program Files\ASTER", Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
+            Drive + @"\ProgramData\IBIK Software Ltd\Uninstall",
+            Drive + @"\ProgramData\Microsoft\Windows\Start Menu\Programs\ASTER Control", Drive + @"\ProgramData\MultiSeat Utils"
         };
-        private static readonly string[] OtherFilesOriginal = new[] { @"J:\Windows\System32\drivers\mutenx.sys" };
+        private static readonly string[] OtherFilesOriginal = new[] { Drive + @"\Windows\System32\drivers\mutenx.sys" };
 
         private static readonly DateTime LowerDateTime = new DateTime(2024, 1, 1);
         private static readonly DateTime UpperDateTime = new DateTime(2024, 12, 19, 2, 0, 0);
@@ -34,10 +38,12 @@ namespace Helpers
 
         private static void ChangeMaxDateOfOthers(DateTime maxDate)
         {
-            var otherFolder = new DirectoryInfo(OtherFolderTest);
+            // var otherFolder = new DirectoryInfo(OtherFolderTest);
+            // var files = otherFolder.GetFiles();
+            // var folders = otherFolder.GetDirectories();
 
-            var files = otherFolder.GetFiles();
-            var folders = otherFolder.GetDirectories();
+            var folders = OtherFoldersOriginal.Select(a => new DirectoryInfo(a)).ToArray();
+            var files = OtherFilesOriginal.Select(a => new FileInfo(a)).ToArray();
 
             foreach (var file in files)
                 ChangeMaxDate(file, maxDate);
@@ -92,10 +98,12 @@ namespace Helpers
 
         private static void ChangeMinDateOfOthers(DateTime[] dateRange)
         {
-            var otherFolder = new DirectoryInfo(OtherFolderTest);
+            // var otherFolder = new DirectoryInfo(OtherFolderTest);
+            // var files = otherFolder.GetFiles();
+            // var folders = otherFolder.GetDirectories();
 
-            var files = otherFolder.GetFiles();
-            var folders = otherFolder.GetDirectories();
+            var folders = OtherFoldersOriginal.Select(a=>new DirectoryInfo(a)).ToArray();
+            var files = OtherFilesOriginal.Select(a=>new FileInfo(a)).ToArray();
 
             foreach (var file in files)
                 ChangeMinDate(file, dateRange);
@@ -140,10 +148,10 @@ namespace Helpers
         #region ========  Check dates of other files/folders  ========
         public static void CheckDatesOfOthers()
         {
-            // var folders = OtherFoldersOriginal;
-            // var files = OtherFilesOriginal;
-            var folders = Directory.GetDirectories(OtherFolderTest);
-            var files = Directory.GetFiles(OtherFolderTest);
+            var folders = OtherFoldersOriginal;
+            var files = OtherFilesOriginal;
+            // var folders = Directory.GetDirectories(OtherFolderTest);
+            // var files = Directory.GetFiles(OtherFolderTest);
 
             var minMaxDates = new[] {DateTime.MaxValue, DateTime.MinValue};
             var badFiles = new List<string>();
@@ -160,6 +168,8 @@ namespace Helpers
                 var fileDates = GetFileDates(file);
                 CheckLowerDate(minMaxDates, fileDates, badFiles, file);
             }
+
+            MessageBox.Show($"Dates: {minMaxDates[0]} - {minMaxDates[1]}. Files: {Environment.NewLine}{string.Join(Environment.NewLine, badFiles)}");
         }
 
         private static void RecursiveFolderCheckDates(string folder, DateTime[] minMaxDates, int[] fileAndFolderCount, List<string> tempFiles)
@@ -257,6 +267,15 @@ namespace Helpers
             SetFolderDates(logFolder, logDates);
             SetFolderDates(LogRootFolder, rootDates);
         }
+        #endregion
+
+        #region =========  Sync Dates of Log folder  ==========
+
+        public static void SyncDatesOfLogFolder()
+        {
+
+        }
+
         #endregion
 
         #region =========  ChangeDatesOfLogFolder  ===========
@@ -441,9 +460,9 @@ namespace Helpers
         #region =============  XCopy  ==============
         public static void XCopy()
         {
-            var oldFolderName = @"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
-            var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
-            // var newFolder = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241219.Original";
+            var oldFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
+            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
+            var newFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241225.Original";
 
             var oldFolder = new DirectoryInfo(oldFolderName);
             var newFolder = new DirectoryInfo(newFolderName);

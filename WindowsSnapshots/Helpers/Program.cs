@@ -20,29 +20,19 @@ namespace Helpers
                 return;
             }
 
-            /*var maxDate = new DateTime(2024, 12, 19, 2, 0, 0);
-            var fileDate = new DateTime(2024, 12, 19, 3, 0, 0);
-            var d = fileDate.AddDays(-Convert.ToInt32(Math.Floor((fileDate - maxDate).TotalDays)) - 1);
-
-            fileDate = new DateTime(2024, 12, 20, 1, 0, 0);
-            d = fileDate.AddDays(-Convert.ToInt32(Math.Floor((fileDate - maxDate).TotalDays)) - 1);
-
-            fileDate = new DateTime(2024, 12, 20, 3, 0, 0);
-            d = fileDate.AddDays(-Convert.ToInt32(Math.Floor((fileDate - maxDate).TotalDays)) - 1);
-
-            var a1 = 0;*/
-
-            // ChangeFileDates.XCopy();
+            ChangeFileDates.XCopy();
             // ChangeFileDates.XCopyOthers();
 
             // ChangeFileDates.AddMissingLogFile();
             // ChangeFileDates.RenameOldLogFile();
 
+            // ChangeFileDates.ChangeDatesOfLogFolder(new DateTime(2024, 12, 12), 1);
+
             // ChangeFileDates.CheckLogFolder();
             // ChangeFileDates.CheckDatesOfOthers();
-            ChangeFileDates.ChangeMinDateOfOthers();
-            ChangeFileDates.ChangeMaxDateOfOthers();
-            ChangeFileDates.CheckDatesOfOthers();
+            // ChangeFileDates.ChangeMinDateOfOthers();
+            // ChangeFileDates.ChangeMaxDateOfOthers();
+            // ChangeFileDates.CheckDatesOfOthers();
 
 
 
