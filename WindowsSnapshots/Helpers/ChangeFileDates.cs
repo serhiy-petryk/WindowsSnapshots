@@ -9,11 +9,11 @@ namespace Helpers
 {
     public static class ChangeFileDates
     {
+        // private const string LogRootFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
         private static readonly string Drive =
             Directory.Exists(@"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}")
                 ? "J:"
                 : "C:";
-        // private const string LogRootFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
         private static readonly string LogRootFolder = Drive+  @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
         private const string OtherFolderTest = @"E:\Temp\WindowsSnapshots\Data\Tests.Others";
@@ -28,6 +28,14 @@ namespace Helpers
 
         private static readonly DateTime LowerDateTime = new DateTime(2024, 1, 1);
         private static readonly DateTime UpperDateTime = new DateTime(2024, 12, 19, 2, 0, 0);
+
+        public static void SetDatesOfDriver()
+        {
+            var file = OtherFilesOriginal[0];
+            var date = GetFileDates(file);
+            var created = File.GetCreationTime(file);
+            // File.SetCreationTime(file, created.AddDays(-1));
+        }
 
         #region ========  Change maximum dates of other files/folders  ========
         public static void ChangeMaxDateOfOthers()
@@ -273,6 +281,22 @@ namespace Helpers
 
         public static void SyncDatesOfLogFolder()
         {
+            var logFolder = Path.Combine(LogRootFolder, "Logs");
+            var files = new DirectoryInfo(logFolder).GetFiles();
+            foreach (var file in files)
+            {
+                var date = DateTime.ParseExact(file.Name.Substring(0, 15), "yyyyMMdd_HHmmss", CultureInfo.InvariantCulture);
+
+                var fileDate = file.CreationTime;
+                var difference = fileDate - date;
+                if (difference > TimeSpan.FromSeconds(2))
+                    file.CreationTime = date;
+
+                fileDate = file.LastWriteTime;
+                difference = fileDate - date;
+                if (difference > TimeSpan.FromMinutes(1))
+                    file.LastWriteTime = date;
+            }
 
         }
 
@@ -461,15 +485,18 @@ namespace Helpers
         public static void XCopy()
         {
             var oldFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
-            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
-            var newFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241225.Original";
+            var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
+            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241225.Original";
+
+            // var oldFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241219.Original";
+            // var newFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}"; 
 
             var oldFolder = new DirectoryInfo(oldFolderName);
             var newFolder = new DirectoryInfo(newFolderName);
 
             // Delete old data from newFolder
-            if (newFolder.Exists)
-                RecursiveFolderDelete(newFolder);
+            // if (newFolder.Exists)
+            //    RecursiveFolderDelete(newFolder);
 
             XCopy(oldFolder, newFolder);
         }
@@ -493,7 +520,7 @@ namespace Helpers
             foreach (var oldFile in files)
             {
                 var newFileName = Path.Combine(newFolder.FullName, oldFile.Name);
-                oldFile.CopyTo(newFileName);
+                oldFile.CopyTo(newFileName, true);
                 CopyAttributes(oldFile, new FileInfo(newFileName));
             }
 

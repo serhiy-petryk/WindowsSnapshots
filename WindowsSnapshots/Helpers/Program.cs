@@ -16,16 +16,18 @@ namespace Helpers
 
             if (!Others.IsAdministrator())
             {
-                MessageBox.Show("Run after administrator right");
+                MessageBox.Show("Run with administrator right");
                 return;
             }
 
-            ChangeFileDates.XCopy();
+            // ChangeFileDates.SetDatesOfDriver();
+            // ChangeFileDates.XCopy();
             // ChangeFileDates.XCopyOthers();
 
             // ChangeFileDates.AddMissingLogFile();
             // ChangeFileDates.RenameOldLogFile();
 
+            // ChangeFileDates.SyncDatesOfLogFolder();
             // ChangeFileDates.ChangeDatesOfLogFolder(new DateTime(2024, 12, 12), 1);
 
             // ChangeFileDates.CheckLogFolder();
