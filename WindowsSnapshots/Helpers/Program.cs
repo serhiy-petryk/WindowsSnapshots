@@ -21,7 +21,7 @@ namespace Helpers
             }
 
             // ChangeFileDates.SetDatesOfDriver();
-            // ChangeFileDates.XCopy();
+            ChangeFileDates.XCopy();
             // ChangeFileDates.XCopyOthers();
 
             // ChangeFileDates.AddMissingLogFile();

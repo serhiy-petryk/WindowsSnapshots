@@ -485,8 +485,8 @@ namespace Helpers
         public static void XCopy()
         {
             var oldFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
-            var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
-            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241225.Original";
+            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
+            var newFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241226.Original";
 
             // var oldFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241219.Original";
             // var newFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}"; 
