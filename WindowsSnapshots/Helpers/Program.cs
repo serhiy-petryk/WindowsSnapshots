@@ -22,6 +22,7 @@ namespace Helpers
 
             // ChangeFileDates.SetDatesOfDriver();
             ChangeFileDates.XCopy();
+            ChangeFileDates.RestoreDateOfAsterFolder();
             // ChangeFileDates.XCopyOthers();
 
             // ChangeFileDates.AddMissingLogFile();

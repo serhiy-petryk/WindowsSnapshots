@@ -51,6 +51,8 @@ namespace WindowsSnapshots
             }
         }
 
+        private string GetFileId() => string.IsNullOrEmpty(txtFileId.Text) ? "" : $"{txtFileId.Text}_";
+
         private void ShowStatus(string message)
         {
             if (statusStrip1.InvokeRequired)
@@ -86,7 +88,7 @@ namespace WindowsSnapshots
             btnFileSystemSnapshot.Enabled = false;
             try
             {
-                var task = ScanFileSystem.SaveFileSystemInfoIntoFile(GetDataFolder(), ShowStatus);
+                var task = ScanFileSystem.SaveFileSystemInfoIntoFile(GetDataFolder(), GetFileId(), ShowStatus);
                 await Task.Factory.StartNew(() => task);
                 ShowStatus($"New FileSystem snapshot file is {task}");
                 MessageBox.Show($"New FileSystem snapshot file is {task}");
@@ -142,7 +144,7 @@ namespace WindowsSnapshots
         #region ============  Registry  =============
         private void btnRegistrySnapshot_Click(object sender, EventArgs e)
         {
-            var fileName = Path.Combine(GetDataFolder(), $"Registry_{Helpers.GetSystemDriveLabel()}_{DateTime.Now:yyyyMMddHHmm}.reg");
+            var fileName = Path.Combine(GetDataFolder(), $"Registry_{Helpers.GetSystemDriveLabel()}_{GetFileId()}{DateTime.Now:yyyyMMddHHmm}.reg");
             MessageBox.Show(
                 $"To create registry data, please, run 'regedit.exe' program, make export data in '{fileName}' and zip the newly created text file.");
             lblRegistryFileName.Text = fileName;
@@ -193,7 +195,7 @@ namespace WindowsSnapshots
             btnOthersSnapshot.Enabled = false;
             try
             {
-                var task = ScanOtherSnapshots.SaveSnapshotsIntoFile(GetDataFolder(), ShowStatus);
+                var task = ScanOtherSnapshots.SaveSnapshotsIntoFile(GetDataFolder(), GetFileId(), ShowStatus);
                 await Task.Factory.StartNew(() => task);
                 ShowStatus($"New OtherSnapshots file is {task}");
                 MessageBox.Show($"New OtherSnapshots file is {task}");
@@ -246,5 +248,26 @@ namespace WindowsSnapshots
             Helpers.ClearMemory();
         }
         #endregion
+
+        private async void btnAsterFolder_Click(object sender, EventArgs e)
+        {
+            btnAsterFolder.Enabled = false;
+            try
+            {
+                var task = BackupAsterFolder.Run(GetDataFolder(), GetFileId(), ShowStatus);
+                await Task.Factory.StartNew(() => task);
+                ShowStatus($"Backup Aster folder is {task}");
+                MessageBox.Show($"Backup Aster folder is {task}");
+            }
+            catch (Exception exception)
+            {
+                ShowStatus(exception.Message);
+                MessageBox.Show(exception.Message);
+            }
+
+            btnAsterFolder.Enabled = true;
+
+            Helpers.ClearMemory();
+        }
     }
 }

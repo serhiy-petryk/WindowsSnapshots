@@ -91,6 +91,15 @@ namespace WindowsSnapshots
 
         public static void FakeShowStatus(string message) => Debug.Print(message);
 
+        public static void ZipCompressFolder(string folder, string zipFileName)
+        {
+            var tmp = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip
+            };
+            tmp.CompressDirectory(folder, zipFileName);
+        }
+
         public static void ClearMemory()
         {
             GC.Collect();

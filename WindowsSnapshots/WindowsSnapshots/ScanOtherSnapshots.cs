@@ -150,7 +150,7 @@ namespace WindowsSnapshots
             }
         }
 
-        public static string SaveSnapshotsIntoFile(string dataFolder, Action<string> showStatusAction)
+        public static string SaveSnapshotsIntoFile(string dataFolder, string fileId, Action<string> showStatusAction)
         {
             if (!Helpers.IsAdministrator()) throw new Exception("ERROR! To read ALL(!!!) files, please, run program in administrator mode");
             if (!Directory.Exists(dataFolder)) throw new Exception($"ERROR! Data folder {dataFolder} doesn't exist");
@@ -173,7 +173,7 @@ namespace WindowsSnapshots
             data.AddRange(d);
 
             showStatusAction("Saving data ..");
-            var zipFileName = Path.Combine(dataFolder, $"Others_{Helpers.GetSystemDriveLabel()}_{DateTime.Now:yyyyMMddHHmm}.zip");
+            var zipFileName = Path.Combine(dataFolder, $"Others_{Helpers.GetSystemDriveLabel()}_{fileId}{DateTime.Now:yyyyMMddHHmm}.zip");
             Helpers.SaveStringsToZipFile(zipFileName, data);
 
             showStatusAction($"Data saved into {Path.GetFileName(zipFileName)}");

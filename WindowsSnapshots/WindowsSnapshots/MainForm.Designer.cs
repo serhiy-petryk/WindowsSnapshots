@@ -56,6 +56,9 @@ namespace WindowsSnapshots
             this.btnOthersSnapshot = new System.Windows.Forms.Button();
             this.lblRegistryFileName = new System.Windows.Forms.TextBox();
             this.btnRegistrySnapshot = new System.Windows.Forms.Button();
+            this.txtFileId = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnAsterFolder = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -337,7 +340,7 @@ namespace WindowsSnapshots
             // 
             this.lblRegistryFileName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblRegistryFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblRegistryFileName.Location = new System.Drawing.Point(15, 70);
+            this.lblRegistryFileName.Location = new System.Drawing.Point(15, 93);
             this.lblRegistryFileName.Name = "lblRegistryFileName";
             this.lblRegistryFileName.ReadOnly = true;
             this.lblRegistryFileName.Size = new System.Drawing.Size(467, 13);
@@ -355,11 +358,41 @@ namespace WindowsSnapshots
             this.btnRegistrySnapshot.UseVisualStyleBackColor = true;
             this.btnRegistrySnapshot.Click += new System.EventHandler(this.btnRegistrySnapshot_Click);
             // 
+            // txtFileId
+            // 
+            this.txtFileId.Location = new System.Drawing.Point(12, 61);
+            this.txtFileId.Name = "txtFileId";
+            this.txtFileId.Size = new System.Drawing.Size(161, 20);
+            this.txtFileId.TabIndex = 15;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(179, 64);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(126, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Additional file identificator";
+            // 
+            // btnAsterFolder
+            // 
+            this.btnAsterFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAsterFolder.Location = new System.Drawing.Point(428, 73);
+            this.btnAsterFolder.Name = "btnAsterFolder";
+            this.btnAsterFolder.Size = new System.Drawing.Size(156, 22);
+            this.btnAsterFolder.TabIndex = 17;
+            this.btnAsterFolder.Text = "Backup Aster folder";
+            this.btnAsterFolder.UseVisualStyleBackColor = true;
+            this.btnAsterFolder.Click += new System.EventHandler(this.btnAsterFolder_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(762, 390);
+            this.Controls.Add(this.btnAsterFolder);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtFileId);
             this.Controls.Add(this.btnRegistrySnapshot);
             this.Controls.Add(this.lblRegistryFileName);
             this.Controls.Add(this.btnOthersSnapshot);
@@ -415,6 +448,9 @@ namespace WindowsSnapshots
         private System.Windows.Forms.Button btnOthersSnapshot;
         private System.Windows.Forms.TextBox lblRegistryFileName;
         private System.Windows.Forms.Button btnRegistrySnapshot;
+        private System.Windows.Forms.TextBox txtFileId;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnAsterFolder;
     }
 }
 
