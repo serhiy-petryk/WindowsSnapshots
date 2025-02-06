@@ -6,9 +6,9 @@ namespace WindowsSnapshots
     class BackupAsterFolder
     {
         private static readonly string Drive =
-            Directory.Exists(@"J:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}")
-                ? "J:"
-                : "C:";
+            Directory.Exists(@"C:\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}")
+                ? "C:"
+                : "J:";
 
         public static string Run(string dataFolder, string fileId, Action<string> showStatusAction)
         {

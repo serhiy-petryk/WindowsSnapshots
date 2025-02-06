@@ -33,7 +33,7 @@ namespace WindowsSnapshots
             {
                 if (data2.ContainsKey(kvp.Key))
                 {
-                    if (!object.Equals(data1[kvp.Key], data2[kvp.Key]) && !skipKeys.Any(a => kvp.Key.Contains(a, StringComparison.InvariantCultureIgnoreCase)))
+                    if (!string.Equals(data1[kvp.Key], data2[kvp.Key], StringComparison.InvariantCultureIgnoreCase) && !skipKeys.Any(a => kvp.Key.Contains(a, StringComparison.InvariantCultureIgnoreCase)))
                     {
                             difference.Add(kvp.Key, (data1[kvp.Key], data2[kvp.Key]));
                     }

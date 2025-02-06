@@ -37,9 +37,11 @@ namespace Helpers
             // ChangeFileDates.ChangeMaxDateOfOthers();
             // ChangeFileDates.CheckDatesOfOthers();
 
-
-
             // ChangeFileDates.ChangeDates(true, new DateTime(2024,12,12), 1);
+
+
+            InvestigateRegistry.CompareRegistries();
+            // InvestigateRegistry.ParseZipRegistryFile();
 
             Application.Run(new MainForm());
         }
