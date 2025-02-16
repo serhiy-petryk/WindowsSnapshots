@@ -6,7 +6,7 @@ namespace WindowsSnapshots
     public static class Settings
     {
         public static void SetZipLibrary() => SevenZipBase.SetLibraryPath(@"7z1900\x64-dll\7z.dll");
-        public const string DataFolder = "E:\\Temp\\WindowsSnapshots";
+        public const string DataFolder = "D:\\Temp\\WindowsSnapshots";
 
         public static readonly string[] FileSystemSkipKeys2 = new string[]
         {

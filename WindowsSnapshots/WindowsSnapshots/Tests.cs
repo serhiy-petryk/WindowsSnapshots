@@ -9,7 +9,7 @@ namespace WindowsSnapshots
         private static readonly string[] _searchStrings = new[] { "IBIK", "ASTER", "mutectl", "mutesv" };
         public static void GetAsterEntries()
         {
-            var zipFileName = @"E:\Temp\WindowsSnapshots\Registry_HDD_100_AfterActivation3_202412121612.zip";
+            var zipFileName = @"D:\Temp\WindowsSnapshots\Registry_HDD_100_AfterActivation3_202412121612.zip";
             var data1 = ScanRegistry.ParseZipRegistryFile(zipFileName)
                 .Where(
                     a => _searchStrings.Any(s => (a.Key.IndexOf(s, StringComparison.InvariantCultureIgnoreCase) != -1)
@@ -18,7 +18,7 @@ namespace WindowsSnapshots
                 .OrderBy(a => a.Key.StartsWith("@") ? a.Key.Substring(1) : a.Key)
                 .ToDictionary(a => a.Key, a => a.Value);
 
-            zipFileName = @"E:\Temp\WindowsSnapshots\Registry_HDD_100_AfterInstall_202412120134.zip";
+            zipFileName = @"D:\Temp\WindowsSnapshots\Registry_HDD_100_AfterInstall_202412120134.zip";
             var data2 = ScanRegistry.ParseZipRegistryFile(zipFileName)
                 .Where(
                     a => _searchStrings.Any(s => (a.Key.IndexOf(s, StringComparison.InvariantCultureIgnoreCase) != -1)

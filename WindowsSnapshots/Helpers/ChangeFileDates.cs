@@ -9,7 +9,7 @@ namespace Helpers
 {
     public static class ChangeFileDates
     {
-        // private const string LogRootFolder = @"E:\Temp\WindowsSnapshots\Data\Tests";
+        // private const string LogRootFolder = @"D:\Temp\WindowsSnapshots\Data\Tests";
         private static readonly string Drive =
             Directory.Exists(@"J:\ProgramData")
                 ? "J:"
@@ -17,7 +17,7 @@ namespace Helpers
 
         private static readonly string LogRootFolder = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
-        private const string OtherFolderTest = @"E:\Temp\WindowsSnapshots\Data\Tests.Others";
+        private const string OtherFolderTest = @"D:\Temp\WindowsSnapshots\Data\Tests.Others";
 
         private static readonly string[] OtherFoldersOriginal = new[]
         {
@@ -32,8 +32,8 @@ namespace Helpers
 
         public static void RestoreDateOfAsterFolder()
         {
-            var sourceFile = new FileInfo(@"E:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64\logs\20241224_165633_00093_wp01s.log");
-            var destFolder = new DirectoryInfo(@"E:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64\logs");
+            var sourceFile = new FileInfo(@"D:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64\logs\20241224_165633_00093_wp01s.log");
+            var destFolder = new DirectoryInfo(@"D:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64\logs");
 
             destFolder.LastWriteTime = sourceFile.LastWriteTime;
             destFolder.LastAccessTime = sourceFile.LastAccessTime;
@@ -495,17 +495,17 @@ namespace Helpers
         public static void XCopy()
         {
             // var oldFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
-            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Tests";
-            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241229.Original";
+            // var newFolderName = @"D:\Temp\WindowsSnapshots\Data\Tests";
+            // var newFolderName = @"D:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241229.Original";
 
-            // var oldFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241219.Original";
+            // var oldFolderName = @"D:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241219.Original";
             // var newFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}"; 
 
-            // var oldFolderName = @"E:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241226.Original";
-            // var newFolderName = @"E:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64";
+            // var oldFolderName = @"D:\Temp\WindowsSnapshots\Data\20D04FE0-3AEA-1069-A2D8-08002B30309D_20241226.Original";
+            // var newFolderName = @"D:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64";
 
             // Restore aster folder from backup
-            var oldFolderName = @"E:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64";
+            var oldFolderName = @"D:\Temp\WindowsSnapshots\Data\Restore\AfterActivation64";
             var newFolderName = Drive + @"\ProgramData\ASTER Control.{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
 
             var oldFolder = new DirectoryInfo(oldFolderName);

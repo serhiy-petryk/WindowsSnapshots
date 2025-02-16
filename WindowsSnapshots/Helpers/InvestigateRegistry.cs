@@ -27,7 +27,7 @@ HKEY_CURRENT_USER	146097
 HKEY_LOCAL_MACHINE 	1069081
 HKEY_USERS	        270655
              */
-            const string zipFileName = @"E:\Temp\WindowsSnapshots\Registry_SSD_240_Test_202502030145.zip";
+            const string zipFileName = @"D:\Temp\WindowsSnapshots\Registry_SSD_240_Test_202502030145.zip";
             var data = new Dictionary<string, string>();
             string mainKey = null;
             string key = null;
@@ -121,7 +121,7 @@ HKEY_USERS	        270655
 
         public static void CompareRegistries()
         {
-            const string zipFileName = @"E:\Temp\WindowsSnapshots\Registry_SSD_240_Test_202502030145.zip";
+            const string zipFileName = @"D:\Temp\WindowsSnapshots\Registry_SSD_240_Test_202502030145.zip";
             var data = new Dictionary<string, InvestigateRegistry>();
             string mainKey = null;
             string key = null;
